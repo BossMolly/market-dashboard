@@ -1,0 +1,163 @@
+name: 미국 시장 일일 리포트 자동 생성
+
+on:
+  schedule:
+    # 매일 오전 7시 KST = UTC 22:00 (전날)
+    # 월~금 (미국 장 마감 후)
+    - cron: '0 22 * * 0-4'
+  workflow_dispatch:  # 수동 실행 버튼 (언제든 즉시 실행 가능)
+
+jobs:
+  generate-report:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 저장소 체크아웃
+        uses: actions/checkout@v4
+
+      - name: Node.js 설치
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Claude Code 설치
+        run: npm install -g @anthropic-ai/claude-code
+
+      - name: 시장 데이터 수집
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          TODAY=$(TZ='Asia/Seoul' date +"%Y-%m-%d")
+          NOW=$(TZ='Asia/Seoul' date +"%H:%M")
+          echo "📅 수집 날짜: $TODAY $NOW KST"
+
+          claude --no-interactive -p "
+          오늘($TODAY $NOW KST) 미국 주식 시장 최신 데이터를 웹에서 검색하여
+          아래 JSON 형식으로만 응답하세요. 반드시 { 로 시작하고 } 로 끝내세요.
+          Markdown, 코드블록, 설명 텍스트 없이 순수 JSON만 출력하세요.
+
+          {
+            \"date\": \"$TODAY\",
+            \"updated_at\": \"$NOW KST\",
+            \"indices\": {
+              \"sp500\":  {\"value\": 0, \"change\": 0, \"change_pct\": 0},
+              \"nasdaq\": {\"value\": 0, \"change\": 0, \"change_pct\": 0},
+              \"dow\":    {\"value\": 0, \"change\": 0, \"change_pct\": 0},
+              \"vix\":    {\"value\": 0, \"change\": 0}
+            },
+            \"market_mood\": {\"score\": 50, \"label\": \"\", \"vix_signal\": \"\", \"summary\": \"\"},
+            \"top_news\": [
+              {\"rank\":1,\"headline\":\"\",\"summary\":\"\",\"source\":\"\",\"time\":\"\",\"importance\":\"high\",\"impact\":\"\"},
+              {\"rank\":2,\"headline\":\"\",\"summary\":\"\",\"source\":\"\",\"time\":\"\",\"importance\":\"high\",\"impact\":\"\"},
+              {\"rank\":3,\"headline\":\"\",\"summary\":\"\",\"source\":\"\",\"time\":\"\",\"importance\":\"mid\",\"impact\":\"\"},
+              {\"rank\":4,\"headline\":\"\",\"summary\":\"\",\"source\":\"\",\"time\":\"\",\"importance\":\"mid\",\"impact\":\"\"},
+              {\"rank\":5,\"headline\":\"\",\"summary\":\"\",\"source\":\"\",\"time\":\"\",\"importance\":\"low\",\"impact\":\"\"}
+            ],
+            \"sectors\": [
+              {\"name\":\"기술\",\"en\":\"Technology\",\"change_pct\":0},
+              {\"name\":\"에너지\",\"en\":\"Energy\",\"change_pct\":0},
+              {\"name\":\"금융\",\"en\":\"Financials\",\"change_pct\":0},
+              {\"name\":\"헬스케어\",\"en\":\"Healthcare\",\"change_pct\":0},
+              {\"name\":\"소비재\",\"en\":\"Consumer Discretionary\",\"change_pct\":0},
+              {\"name\":\"산업재\",\"en\":\"Industrials\",\"change_pct\":0},
+              {\"name\":\"필수소비재\",\"en\":\"Consumer Staples\",\"change_pct\":0},
+              {\"name\":\"유틸리티\",\"en\":\"Utilities\",\"change_pct\":0},
+              {\"name\":\"부동산\",\"en\":\"Real Estate\",\"change_pct\":0},
+              {\"name\":\"소재\",\"en\":\"Materials\",\"change_pct\":0},
+              {\"name\":\"통신서비스\",\"en\":\"Communication Services\",\"change_pct\":0}
+            ],
+            \"economic_indicators\": [
+              {\"name\":\"미국 10년물 국채금리\",\"value\":0,\"change\":0,\"unit\":\"%\"},
+              {\"name\":\"미국 2년물 국채금리\",\"value\":0,\"change\":0,\"unit\":\"%\"},
+              {\"name\":\"DXY 달러인덱스\",\"value\":0,\"change\":0,\"unit\":\"\"},
+              {\"name\":\"WTI 원유\",\"value\":0,\"change\":0,\"unit\":\"달러/배럴\"},
+              {\"name\":\"금 현물\",\"value\":0,\"change\":0,\"unit\":\"달러/oz\"},
+              {\"name\":\"연준 기준금리\",\"value\":0,\"change\":0,\"unit\":\"%\"}
+            ],
+            \"buzz_stocks\": [
+              {\"rank\":1,\"ticker\":\"\",\"name\":\"\",\"heat\":5,\"change_pct\":0,\"reason\":\"\"},
+              {\"rank\":2,\"ticker\":\"\",\"name\":\"\",\"heat\":4,\"change_pct\":0,\"reason\":\"\"},
+              {\"rank\":3,\"ticker\":\"\",\"name\":\"\",\"heat\":3,\"change_pct\":0,\"reason\":\"\"},
+              {\"rank\":4,\"ticker\":\"\",\"name\":\"\",\"heat\":3,\"change_pct\":0,\"reason\":\"\"},
+              {\"rank\":5,\"ticker\":\"\",\"name\":\"\",\"heat\":2,\"change_pct\":0,\"reason\":\"\"}
+            ],
+            \"schedule\": [
+              {\"date_kst\":\"\",\"time_kst\":\"\",\"title\":\"\",\"description\":\"\",\"type\":\"econ\",\"importance\":\"high\"},
+              {\"date_kst\":\"\",\"time_kst\":\"\",\"title\":\"\",\"description\":\"\",\"type\":\"fed\",\"importance\":\"high\"},
+              {\"date_kst\":\"\",\"time_kst\":\"\",\"title\":\"\",\"description\":\"\",\"type\":\"earnings\",\"importance\":\"high\"},
+              {\"date_kst\":\"\",\"time_kst\":\"\",\"title\":\"\",\"description\":\"\",\"type\":\"econ\",\"importance\":\"mid\"},
+              {\"date_kst\":\"\",\"time_kst\":\"\",\"title\":\"\",\"description\":\"\",\"type\":\"econ\",\"importance\":\"mid\"}
+            ],
+            \"market_outlook\": {
+              \"summary\": \"\",
+              \"key_risks\": [\"\", \"\", \"\"],
+              \"strategy\": [\"\", \"\", \"\"],
+              \"overall_sentiment\": \"neutral\"
+            }
+          }
+
+          빈 값들을 실제 오늘 데이터로 채워주세요.
+          " --output-format text > market_data_raw.txt
+
+          echo "✅ 데이터 수집 완료"
+
+      - name: JSON 추출 및 HTML 주입
+        run: |
+          python3 << 'PYEOF'
+          import json, sys, re
+
+          # JSON 추출
+          with open('market_data_raw.txt', 'r', encoding='utf-8') as f:
+              raw = f.read()
+
+          start = raw.find('{')
+          end   = raw.rfind('}')
+          if start == -1 or end == -1:
+              print("❌ JSON 블록을 찾을 수 없음")
+              sys.exit(1)
+
+          try:
+              data = json.loads(raw[start:end+1])
+          except json.JSONDecodeError as e:
+              print(f"❌ JSON 파싱 실패: {e}")
+              sys.exit(1)
+
+          print(f"✅ JSON 파싱 성공: {data.get('date','')}")
+
+          # HTML 읽기
+          with open('us_market_dashboard.html', 'r', encoding='utf-8') as f:
+              html = f.read()
+
+          # 기존 MARKET_DATA 블록 교체
+          json_str = json.dumps(data, ensure_ascii=False, indent=2)
+          inject_script = f'<script>\n/* AUTO-GENERATED {data.get("date","")} */\nwindow.MARKET_DATA = {json_str};\n</script>'
+
+          # window.MARKET_DATA 블록 교체 (기존 데이터 덮어쓰기)
+          pattern = r'<script>\s*/\*[^*]*\*/\s*window\.MARKET_DATA\s*=\s*\{.*?\};\s*</script>'
+          if re.search(pattern, html, re.DOTALL):
+              html = re.sub(pattern, inject_script, html, flags=re.DOTALL)
+              print("✅ MARKET_DATA 블록 교체 성공")
+          elif '<!-- __PRELOAD_INJECT_HERE__ -->' in html:
+              html = html.replace('<!-- __PRELOAD_INJECT_HERE__ -->', inject_script)
+              print("✅ 마커 주입 성공")
+          else:
+              html = html.replace('</body>', inject_script + '\n</body>')
+              print("✅ 폴백 주입 성공")
+
+          # index.html로 저장
+          with open('index.html', 'w', encoding='utf-8') as f:
+              f.write(html)
+
+          print(f"✅ index.html 생성 완료")
+          PYEOF
+
+      - name: GitHub Pages 배포
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          git diff --cached --quiet || (
+            git commit -m "📊 $(TZ='Asia/Seoul' date +'%Y-%m-%d') 시장 리포트 자동 업데이트"
+            git push
+            echo "✅ GitHub Pages 배포 완료"
+          )
