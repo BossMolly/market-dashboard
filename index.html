@@ -3,246 +3,256 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>US Market Intelligence</title>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600&family=Bebas+Neue&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<title>AI Market Intelligence</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
 <style>
-:root {
-  --bg:      #080a0f;
-  --bg2:     #0d1017;
-  --bg3:     #131820;
-  --bg4:     #1a2130;
-  --border:  rgba(255,255,255,0.06);
-  --border2: rgba(255,255,255,0.11);
-  --text:    #dde2ec;
-  --text2:   #7a8499;
-  --text3:   #3d4a60;
-  --blue:    #3d8ef0;
-  --blue2:   #1a5fc8;
-  --green:   #00c896;
-  --gd:      rgba(0,200,150,0.1);
-  --red:     #ff4466;
-  --rd:      rgba(255,68,102,0.1);
-  --amber:   #f5a623;
-  --ad:      rgba(245,166,35,0.1);
-  --purple:  #9b6dff;
-  --teal:    #00d4cc;
-  --mono:    'IBM Plex Mono', monospace;
-  --display: 'Bebas Neue', cursive;
-  --body:    'Noto Sans KR', sans-serif;
+:root{
+  --bg:#080b12;--bg2:#0d1118;--bg3:#131a24;--bg4:#1a2232;
+  --bd:rgba(255,255,255,0.07);--bd2:rgba(255,255,255,0.13);
+  --tx:#d8e0ee;--tx2:#7a8699;--tx3:#3d4e66;
+  --blue:#3d8ef0;--green:#00c896;--gd:rgba(0,200,150,0.1);
+  --red:#f04060;--rd:rgba(240,64,96,0.1);
+  --amber:#f0a020;--ad:rgba(240,160,32,0.1);
+  --purple:#9b6dff;--teal:#00d4cc;
+  --mono:'IBM Plex Mono',monospace;--body:'Noto Sans KR',sans-serif;
+  --r:6px;--r2:10px;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--text);font-family:var(--body);min-height:100vh;overflow-x:hidden}
+body{background:var(--bg);color:var(--tx);font-family:var(--body);min-height:100vh;overflow-x:hidden;line-height:1.5}
+body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(61,142,240,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(61,142,240,0.03) 1px,transparent 1px);background-size:48px 48px;pointer-events:none;z-index:0}
+.up{color:var(--green)}.down{color:var(--red)}.flat{color:var(--tx3)}
+.wrap{position:relative;z-index:1;max-width:1600px;margin:0 auto;padding:0 16px}
 
-/* SCANLINE EFFECT */
-body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.03) 2px,rgba(0,0,0,0.03) 4px);pointer-events:none;z-index:9999}
-
-/* GRID BG */
-body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(61,142,240,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(61,142,240,0.04) 1px,transparent 1px);background-size:48px 48px;pointer-events:none;z-index:0}
-
-.wrap{position:relative;z-index:1;max-width:1440px;margin:0 auto;padding:0 20px}
-
-/* ── HEADER ── */
-header{background:rgba(8,10,15,0.95);backdrop-filter:blur(16px);border-bottom:1px solid var(--border2);position:sticky;top:0;z-index:100}
-.hdr{display:flex;align-items:center;justify-content:space-between;padding:12px 20px;max-width:1440px;margin:0 auto;gap:16px}
-.logo{display:flex;align-items:center;gap:12px}
-.logo-box{width:36px;height:36px;background:var(--blue);border-radius:4px;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:11px;font-weight:600;color:#fff;letter-spacing:-0.5px}
-.logo-name{font-family:var(--display);font-size:22px;letter-spacing:0.08em;color:var(--text)}
-.logo-sub{font-family:var(--mono);font-size:9px;color:var(--text3);letter-spacing:0.12em;text-transform:uppercase}
-.hdr-mid{display:flex;gap:24px;align-items:center}
-.hdr-idx{display:flex;flex-direction:column;align-items:center;gap:1px}
-.hdr-idx-name{font-family:var(--mono);font-size:9px;color:var(--text3);letter-spacing:0.06em}
-.hdr-idx-val{font-family:var(--mono);font-size:13px;font-weight:500}
-.hdr-right{display:flex;align-items:center;gap:12px}
-.live{display:flex;align-items:center;gap:5px;font-family:var(--mono);font-size:10px;color:var(--green)}
+/* HEADER */
+header{background:rgba(8,11,18,0.97);backdrop-filter:blur(20px);border-bottom:1px solid var(--bd2);position:sticky;top:0;z-index:200}
+.hdr{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;max-width:1600px;margin:0 auto;gap:12px;flex-wrap:wrap}
+.logo{display:flex;align-items:center;gap:10px;flex-shrink:0}
+.logo-mark{width:32px;height:32px;background:var(--blue);border-radius:5px;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:10px;font-weight:500;color:#fff}
+.logo-text{font-family:var(--mono);font-size:13px;font-weight:500;letter-spacing:.1em}
+.logo-ver{font-size:9px;color:var(--tx3);font-family:var(--mono)}
+.hdr-idx{display:flex;gap:18px;flex-wrap:wrap}
+.idx-item{display:flex;flex-direction:column;align-items:center;gap:1px}
+.idx-sym{font-family:var(--mono);font-size:9px;color:var(--tx3);letter-spacing:.08em}
+.idx-val{font-family:var(--mono);font-size:13px;font-weight:500}
+.hdr-right{display:flex;align-items:center;gap:12px;flex-shrink:0}
+.live-badge{display:flex;align-items:center;gap:5px;font-family:var(--mono);font-size:10px;color:var(--green)}
 .live-dot{width:5px;height:5px;border-radius:50%;background:var(--green);animation:blink 1.5s infinite}
-@keyframes blink{0%,100%{opacity:1}50%{opacity:0.2}}
-.clock{font-family:var(--mono);font-size:10px;color:var(--text3)}
-.load-btn{background:transparent;border:1px solid var(--border2);border-radius:4px;padding:6px 14px;color:var(--text2);font-family:var(--mono);font-size:11px;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:6px}
-.load-btn:hover{border-color:var(--blue);color:var(--blue)}
-.spin{display:inline-block;animation:rot 1s linear infinite}
-@keyframes rot{to{transform:rotate(360deg)}}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
+.clock{font-family:var(--mono);font-size:10px;color:var(--tx3)}
+.refresh-btn{background:var(--bg3);border:1px solid var(--bd2);border-radius:var(--r);padding:5px 12px;color:var(--tx2);font-family:var(--mono);font-size:10px;cursor:pointer;display:flex;align-items:center;gap:5px;transition:all .2s}
+.refresh-btn:hover{border-color:var(--blue);color:var(--blue)}
+.spin{animation:spin 1s linear infinite;display:inline-block}
+@keyframes spin{to{transform:rotate(360deg)}}
 
-/* ── TABS ── */
-.nav{background:var(--bg);border-bottom:1px solid var(--border);position:sticky;top:61px;z-index:99}
-.nav-in{max-width:1440px;margin:0 auto;padding:0 20px;display:flex;overflow-x:auto;scrollbar-width:none}
-.nav-in::-webkit-scrollbar{display:none}
-.tab{padding:13px 18px;font-family:var(--mono);font-size:11px;letter-spacing:0.06em;color:var(--text3);border:none;border-bottom:2px solid transparent;background:none;cursor:pointer;white-space:nowrap;transition:all .2s;text-transform:uppercase;display:flex;align-items:center;gap:7px}
-.tab:hover{color:var(--text2)}
-.tab.on{color:var(--blue);border-bottom-color:var(--blue)}
-.tab-dot{width:6px;height:6px;border-radius:50%}
+/* NAV */
+.nav-wrap{background:var(--bg);border-bottom:1px solid var(--bd);position:sticky;top:53px;z-index:199}
+.nav-inner{max-width:1600px;margin:0 auto;padding:0 16px;display:flex;overflow-x:auto;scrollbar-width:none}
+.nav-inner::-webkit-scrollbar{display:none}
+.nav-tab{padding:11px 16px;font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--tx3);border:none;border-bottom:2px solid transparent;background:none;cursor:pointer;white-space:nowrap;transition:all .2s;display:flex;align-items:center;gap:6px}
+.nav-tab:hover{color:var(--tx2)}
+.nav-tab.on{color:var(--blue);border-bottom-color:var(--blue)}
+.nav-dot{width:6px;height:6px;border-radius:50%}
 
-/* ── PAGES ── */
-main{padding:24px 0 60px}
-.page{display:none;animation:fadeUp .25s ease}
+/* PAGES */
+main{padding:16px 0 60px}
+.page{display:none;animation:fadeUp .2s ease}
 .page.on{display:block}
-@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
 
-/* ── CARDS ── */
-.card{background:var(--bg2);border:1px solid var(--border);border-radius:8px;overflow:hidden}
-.card-hdr{padding:12px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
-.card-title{font-family:var(--mono);font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text2);display:flex;align-items:center;gap:7px}
-.card-tag{font-family:var(--mono);font-size:9px;padding:2px 6px;border-radius:3px;background:var(--bg4);color:var(--text3)}
-.card-body{padding:14px 16px}
+/* CARD */
+.card{background:var(--bg2);border:1px solid var(--bd);border-radius:var(--r2);overflow:hidden}
+.card-hdr{padding:10px 14px;border-bottom:1px solid var(--bd);display:flex;align-items:center;justify-content:space-between;gap:8px}
+.card-title{font-family:var(--mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--tx2);display:flex;align-items:center;gap:6px}
+.card-tag{font-family:var(--mono);font-size:9px;padding:2px 6px;border-radius:3px;background:var(--bg4);color:var(--tx3)}
+.card-body{padding:12px 14px}
 
-/* ── GRIDS ── */
-.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
-.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:14px}
-.gw{display:grid;grid-template-columns:3fr 2fr;gap:14px;margin-bottom:14px}
-.gw2{display:grid;grid-template-columns:2fr 1fr;gap:14px;margin-bottom:14px}
-@media(max-width:1000px){.gw,.gw2{grid-template-columns:1fr}.g3{grid-template-columns:1fr 1fr}}
-@media(max-width:640px){.g2,.g3{grid-template-columns:1fr}}
+/* GRIDS */
+.g-main{display:grid;grid-template-columns:1fr 340px;gap:12px}
+.g-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+.g-2{display:grid;grid-template-columns:2fr 1fr;gap:12px}
+@media(max-width:1100px){.g-main{grid-template-columns:1fr}.g-2{grid-template-columns:1fr}}
+@media(max-width:800px){.g-3{grid-template-columns:1fr 1fr}}
+@media(max-width:540px){.g-3{grid-template-columns:1fr}}
+.mb12{margin-bottom:12px}
 
-/* ── IMPORTANCE ── */
-.imp{font-family:var(--mono);font-size:9px;padding:2px 6px;border-radius:3px;font-weight:500;flex-shrink:0;letter-spacing:0.04em;border:1px solid transparent}
-.imp-high,.imp-critical{background:var(--rd);color:var(--red);border-color:rgba(255,68,102,0.2)}
-.imp-mid,.imp-medium{background:var(--ad);color:var(--amber);border-color:rgba(245,166,35,0.2)}
-.imp-low{background:var(--gd);color:var(--green);border-color:rgba(0,200,150,0.2)}
+/* INDEX STRIP */
+.idx-strip{display:grid;grid-template-columns:repeat(4,1fr)}
+.idx-cell{padding:14px 16px;border-right:1px solid var(--bd)}
+.idx-cell:last-child{border-right:none}
+.ic-sym{font-family:var(--mono);font-size:9px;color:var(--tx3);letter-spacing:.1em;margin-bottom:4px}
+.ic-val{font-family:var(--mono);font-size:22px;font-weight:500;line-height:1;margin-bottom:3px}
+.ic-chg{font-family:var(--mono);font-size:11px;display:flex;align-items:center;gap:3px;margin-bottom:8px}
+.ic-bar{height:2px;background:var(--bg4);border-radius:1px;overflow:hidden;position:relative}
+.ic-fill{position:absolute;top:0;height:100%;border-radius:1px}
+@media(max-width:600px){.idx-strip{grid-template-columns:repeat(2,1fr)}.idx-cell:nth-child(2){border-right:none}.idx-cell:nth-child(3),.idx-cell:nth-child(4){border-top:1px solid var(--bd)}.idx-cell:nth-child(4){border-right:none}}
 
-/* ── INDEX CARDS ── */
-.idx-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px}
-@media(max-width:800px){.idx-grid{grid-template-columns:repeat(2,1fr)}}
-.idx-card{background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:12px 14px;transition:border-color .2s}
-.idx-card:hover{border-color:var(--border2)}
-.idx-sym{font-family:var(--mono);font-size:9px;color:var(--text3);letter-spacing:0.1em;margin-bottom:5px}
-.idx-val{font-family:var(--display);font-size:26px;letter-spacing:0.02em;color:var(--text);line-height:1;margin-bottom:4px}
-.idx-chg{font-family:var(--mono);font-size:11px}
-.idx-bar{height:2px;background:var(--bg4);border-radius:1px;margin-top:10px;overflow:hidden;position:relative}
-.idx-fill{position:absolute;top:0;height:100%;border-radius:1px;transition:width 1.2s ease}
+/* MARKET STORY */
+.story-wrap{background:var(--bg2);border:1px solid var(--bd);border-radius:var(--r2);overflow:hidden}
+.story-top{padding:14px 18px;border-bottom:1px solid var(--bd)}
+.story-eyebrow{font-family:var(--mono);font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--blue);margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.story-eyebrow::before{content:'';display:inline-block;width:3px;height:3px;border-radius:50%;background:var(--blue)}
+.story-headline{font-size:14px;font-weight:500;color:var(--tx);line-height:1.55;margin-bottom:12px}
+.story-meta{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.bias-chip{display:inline-flex;align-items:center;gap:5px;font-family:var(--mono);font-size:10px;font-weight:500;padding:4px 12px;border-radius:4px;border:1px solid transparent}
+.bias-off{background:var(--rd);color:var(--red);border-color:rgba(240,64,96,.25)}
+.bias-on{background:var(--gd);color:var(--green);border-color:rgba(0,200,150,.25)}
+.bias-neu{background:var(--ad);color:var(--amber);border-color:rgba(240,160,32,.25)}
+.conf{font-family:var(--mono);font-size:10px;color:var(--tx3)}
+.story-drivers{padding:10px 18px;display:flex;gap:7px;flex-wrap:wrap}
+.drv{display:inline-flex;align-items:center;gap:5px;font-family:var(--mono);font-size:10px;padding:3px 9px;border-radius:4px;background:var(--bg3);border:1px solid var(--bd);color:var(--tx2)}
+.drv.neg{border-color:rgba(240,64,96,.2);color:var(--red)}
+.drv.pos{border-color:rgba(0,200,150,.2);color:var(--green)}
+.drv.warn{border-color:rgba(240,160,32,.2);color:var(--amber)}
 
-/* ── NEWS ── */
-.news-item{padding:11px 0;border-bottom:1px solid var(--border);cursor:pointer;transition:background .15s}
-.news-item:first-child{padding-top:0}
-.news-item:last-child{border-bottom:none;padding-bottom:0}
-.news-item:hover .news-hl{color:var(--blue)}
-.news-top{display:flex;gap:10px;align-items:flex-start}
-.news-num{font-family:var(--mono);font-size:10px;color:var(--text3);min-width:14px;margin-top:2px}
-.news-hl{font-size:13px;font-weight:500;color:var(--text);line-height:1.5;flex:1;transition:color .2s}
-.news-meta{display:flex;gap:7px;align-items:center;margin-top:5px;flex-wrap:wrap}
-.news-src{font-family:var(--mono);font-size:9px;color:var(--text3)}
-.news-time{font-family:var(--mono);font-size:9px;color:var(--text3)}
-.news-impact{font-family:var(--mono);font-size:9px;color:var(--teal)}
-.news-summary{font-size:12px;color:var(--text2);line-height:1.7;margin-top:7px;padding-left:24px;display:none}
-.news-item.open .news-summary{display:block}
-.news-arrow{font-size:11px;color:var(--text3);flex-shrink:0;margin-top:3px;transition:transform .2s}
-.news-item.open .news-arrow{transform:rotate(90deg)}
+/* NEWS */
+.news-item{padding:10px 14px;border-bottom:1px solid var(--bd);cursor:pointer;transition:background .15s}
+.news-item:last-child{border-bottom:none}
+.news-item:hover{background:var(--bg3)}
+.news-item.expanded .news-summary{display:block}
+.news-item.expanded .news-arrow{transform:rotate(90deg)}
+.news-row1{display:flex;gap:9px;align-items:flex-start;margin-bottom:5px}
+.news-num{font-family:var(--mono);font-size:9px;color:var(--tx3);min-width:12px;margin-top:2px;flex-shrink:0}
+.news-hl{font-size:12px;font-weight:500;color:var(--tx);line-height:1.45;flex:1}
+.news-arrow{font-size:11px;color:var(--tx3);flex-shrink:0;margin-top:2px;transition:transform .2s}
+.news-meta{display:flex;gap:5px;align-items:center;padding-left:21px;flex-wrap:wrap;margin-top:2px}
+.imp{font-family:var(--mono);font-size:9px;padding:1px 6px;border-radius:3px;font-weight:500;flex-shrink:0;border:1px solid transparent}
+.imp-high{background:var(--rd);color:var(--red);border-color:rgba(240,64,96,.2)}
+.imp-mid{background:var(--ad);color:var(--amber);border-color:rgba(240,160,32,.2)}
+.imp-low{background:var(--gd);color:var(--green);border-color:rgba(0,200,150,.2)}
+.news-cat{font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:var(--bg4);color:var(--tx3)}
+.news-src{font-family:var(--mono);font-size:9px;color:var(--tx3)}
+.news-impact{font-family:var(--mono);font-size:9px;color:var(--teal);width:100%;margin-top:2px}
+.news-summary{font-size:11px;color:var(--tx2);line-height:1.7;margin-top:7px;padding-left:21px;display:none}
 
-/* ── SECTOR BARS ── */
-.sec-row{display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid var(--border)}
+/* ACTIONABLE INSIGHT */
+.ins-row{padding:9px 14px;border-bottom:1px solid var(--bd);display:flex;align-items:flex-start;gap:10px}
+.ins-row:last-child{border-bottom:none}
+.ins-label{font-family:var(--mono);font-size:9px;letter-spacing:.06em;text-transform:uppercase;color:var(--tx3);min-width:96px;flex-shrink:0;margin-top:2px}
+.ins-val{font-size:11px;color:var(--tx);flex:1;line-height:1.5}
+.ins-badge{font-family:var(--mono);font-size:9px;padding:2px 7px;border-radius:3px;display:inline-block;margin-right:4px}
+.b-bull{background:var(--gd);color:var(--green)}
+.b-bear{background:var(--rd);color:var(--red)}
+.b-neu{background:var(--ad);color:var(--amber)}
+.b-blue{background:rgba(61,142,240,.12);color:var(--blue)}
+.wt{font-family:var(--mono);font-size:9px;padding:2px 7px;border-radius:3px;background:var(--bg4);border:1px solid var(--bd2);color:var(--tx2);display:inline-block;margin:2px 2px 0 0}
+
+/* SECTOR */
+.sec-row{display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:1px solid var(--bd)}
 .sec-row:first-child{padding-top:0}
 .sec-row:last-child{border-bottom:none;padding-bottom:0}
-.sec-name{font-size:12px;color:var(--text2);min-width:72px}
-.sec-bar-wrap{flex:1;height:4px;background:var(--bg4);border-radius:2px;position:relative}
-.sec-bar-fill{position:absolute;top:0;height:100%;border-radius:2px;transition:width .8s ease}
-.sec-pct{font-family:var(--mono);font-size:11px;min-width:46px;text-align:right}
+.sec-name{font-size:11px;color:var(--tx2);min-width:68px}
+.sec-bar{flex:1;height:3px;background:var(--bg4);border-radius:1.5px;position:relative}
+.sec-fill{position:absolute;top:0;height:100%;border-radius:1.5px}
+.sec-pct{font-family:var(--mono);font-size:11px;min-width:44px;text-align:right}
 
-/* ── ECONOMIC INDICATORS ── */
-.econ-item{display:flex;align-items:center;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--border)}
-.econ-item:first-child{padding-top:0}
-.econ-item:last-child{border-bottom:none;padding-bottom:0}
-.econ-name{font-size:12px;color:var(--text2)}
-.econ-right{display:flex;align-items:center;gap:10px}
-.econ-val{font-family:var(--mono);font-size:13px;color:var(--text);font-weight:500}
-.econ-chg{font-family:var(--mono);font-size:11px}
+/* ECON */
+.econ-row{display:flex;align-items:center;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--bd)}
+.econ-row:first-child{padding-top:0}
+.econ-row:last-child{border-bottom:none;padding-bottom:0}
+.econ-name{font-size:11px;color:var(--tx2)}
+.econ-right{display:flex;align-items:center;gap:8px}
+.econ-val{font-family:var(--mono);font-size:13px;font-weight:500;color:var(--tx)}
+.econ-chg{font-family:var(--mono);font-size:10px}
 
-/* ── BUZZ STOCKS ── */
-.buzz-item{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--border)}
-.buzz-item:first-child{padding-top:0}
-.buzz-item:last-child{border-bottom:none;padding-bottom:0}
-.buzz-rank{font-family:var(--mono);font-size:10px;color:var(--text3);min-width:14px;text-align:center}
-.buzz-ticker{font-family:var(--mono);font-size:13px;font-weight:600;color:var(--blue);min-width:48px}
-.buzz-name{font-size:11px;color:var(--text2);flex:1;min-width:0}
-.buzz-reason{font-size:10px;color:var(--text3);display:block;margin-top:1px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:200px}
-.buzz-heat{display:flex;gap:2px}
-.heat-b{width:3px;height:12px;border-radius:1.5px;background:var(--bg4)}
-.heat-b.on{background:var(--blue)}
-.buzz-chg{font-family:var(--mono);font-size:12px;min-width:52px;text-align:right}
+/* BUZZ */
+.buzz-row{display:flex;align-items:center;gap:7px;padding:7px 0;border-bottom:1px solid var(--bd)}
+.buzz-row:first-child{padding-top:0}
+.buzz-row:last-child{border-bottom:none;padding-bottom:0}
+.buzz-rank{font-family:var(--mono);font-size:9px;color:var(--tx3);width:12px;text-align:center;flex-shrink:0}
+.buzz-ticker{font-family:var(--mono);font-size:12px;font-weight:500;color:var(--blue);min-width:42px;flex-shrink:0}
+.buzz-info{flex:1;min-width:0}
+.buzz-name{font-size:10px;color:var(--tx2)}
+.buzz-reason{font-size:9px;color:var(--tx3);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-top:1px}
+.buzz-heat{display:flex;gap:2px;flex-shrink:0}
+.hb{width:3px;height:11px;border-radius:1.5px;background:var(--bg4)}
+.hb.on{background:var(--blue)}
+.buzz-chg{font-family:var(--mono);font-size:11px;min-width:42px;text-align:right;flex-shrink:0}
 
-/* ── SCHEDULE ── */
-.sched-item{display:flex;gap:14px;padding:10px 0;border-bottom:1px solid var(--border);align-items:flex-start}
-.sched-item:first-child{padding-top:0}
-.sched-item:last-child{border-bottom:none;padding-bottom:0}
-.sched-time{min-width:60px}
-.sched-date{font-family:var(--mono);font-size:9px;color:var(--text3)}
-.sched-kst{font-family:var(--mono);font-size:11px;color:var(--text2);font-weight:500}
-.sched-body{flex:1}
-.sched-title{font-size:12px;color:var(--text);font-weight:500;margin-bottom:3px;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
-.sched-desc{font-size:11px;color:var(--text3);line-height:1.5}
-.sched-type{font-family:var(--mono);font-size:9px;padding:1px 6px;border-radius:3px;display:inline-block;margin-top:4px}
-.t-econ{background:rgba(61,142,240,0.12);color:var(--blue)}
-.t-fed{background:rgba(155,109,255,0.12);color:var(--purple)}
-.t-earn,.t-earnings{background:rgba(0,212,204,0.12);color:var(--teal)}
+/* SCHEDULE */
+.sched-row{display:flex;gap:12px;padding:8px 0;border-bottom:1px solid var(--bd);align-items:flex-start}
+.sched-row:first-child{padding-top:0}
+.sched-row:last-child{border-bottom:none;padding-bottom:0}
+.sched-time{min-width:54px;flex-shrink:0}
+.sched-date{font-family:var(--mono);font-size:9px;color:var(--tx3)}
+.sched-kst{font-family:var(--mono);font-size:11px;color:var(--tx2);font-weight:500}
+.sched-body{flex:1;min-width:0}
+.sched-title-row{display:flex;align-items:center;gap:5px;flex-wrap:wrap;margin-bottom:2px}
+.sched-title{font-size:11px;font-weight:500;color:var(--tx)}
+.sched-desc{font-size:10px;color:var(--tx3);line-height:1.5;margin-top:2px}
+.sched-type{font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;display:inline-block}
+.t-econ{background:rgba(61,142,240,.12);color:var(--blue)}
+.t-fed{background:rgba(155,109,255,.12);color:var(--purple)}
+.t-earn{background:rgba(0,212,204,.12);color:var(--teal)}
 
-/* ── MARKET MOOD ── */
-.mood-wrap{display:flex;align-items:center;gap:16px;margin-bottom:12px}
-.mood-gauge{position:relative;width:64px;height:64px;flex-shrink:0}
-.mood-gauge svg{transform:rotate(-90deg)}
-.mood-center{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:15px;font-weight:600}
-.mood-info{}
-.mood-label{font-family:var(--display);font-size:22px;letter-spacing:0.05em}
-.mood-sub{font-family:var(--mono);font-size:10px;color:var(--text3);margin-top:2px}
-.mood-signal{font-size:12px;color:var(--text3);background:var(--bg4);border-radius:5px;padding:8px 10px;margin-bottom:8px}
-.mood-summary{font-size:12px;color:var(--text2);line-height:1.7}
+/* MOOD */
+.mood-gauge-wrap{display:flex;align-items:center;gap:14px;margin-bottom:12px}
+.mood-label{font-size:18px;font-weight:500}
+.mood-sub{font-family:var(--mono);font-size:10px;color:var(--tx3);margin-top:2px}
+.mood-sig{font-size:11px;color:var(--tx2);background:var(--bg3);border-radius:var(--r);padding:7px 10px;margin-bottom:8px;line-height:1.5}
+.mood-sum{font-size:11px;color:var(--tx2);line-height:1.7}
 
-/* ── OUTLOOK ── */
-.outlook-summary{font-size:13px;color:var(--text2);line-height:1.8;margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid var(--border)}
-.outlook-section{margin-bottom:12px}
-.outlook-section-title{font-family:var(--mono);font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text3);margin-bottom:8px}
-.outlook-item{display:flex;gap:8px;font-size:12px;color:var(--text2);line-height:1.6;margin-bottom:6px;align-items:flex-start}
-.outlook-item:last-child{margin-bottom:0}
-.outlook-dot{width:4px;height:4px;border-radius:50%;flex-shrink:0;margin-top:7px}
-.sentiment-badge{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:11px;padding:5px 12px;border-radius:4px;margin-top:10px;font-weight:500}
+/* SCENARIO */
+.sc-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+@media(max-width:600px){.sc-grid{grid-template-columns:1fr}}
+.sc-card{border:1px solid var(--bd);border-radius:var(--r2);overflow:hidden}
+.sc-hdr{padding:8px 12px;border-bottom:1px solid var(--bd);display:flex;align-items:center;gap:8px}
+.sc-icon{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0}
+.sc-icon.bull{background:var(--gd);color:var(--green)}
+.sc-icon.bear{background:var(--rd);color:var(--red)}
+.sc-lbl{font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--tx2)}
+.sc-body{padding:10px 12px}
+.sc-desc{font-size:11px;color:var(--tx2);line-height:1.6;margin-bottom:8px}
+.sc-cond-lbl{font-family:var(--mono);font-size:9px;color:var(--tx3);letter-spacing:.06em;margin-bottom:4px}
+.sc-cond{font-family:var(--mono);font-size:10px;padding:5px 8px;border-radius:3px;background:var(--bg3);border:1px solid var(--bd);color:var(--tx2);line-height:1.5}
+.trg-card{background:var(--bg2);border:1px solid var(--bd);border-radius:var(--r2);padding:12px 14px;margin-bottom:12px}
+.trg-lbl{font-family:var(--mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--tx3);margin-bottom:8px}
+.trg-item{display:flex;gap:8px;font-size:11px;color:var(--tx2);line-height:1.5;margin-bottom:5px}
+.trg-item:last-child{margin-bottom:0}
+.trg-dot{width:4px;height:4px;border-radius:50%;flex-shrink:0;margin-top:5px}
+.wn-card{background:var(--bg2);border:1px solid var(--bd);border-radius:var(--r2);padding:12px 14px}
+.wn-lbl{font-family:var(--mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--tx3);margin-bottom:8px}
+.wn-items{display:flex;flex-wrap:wrap;gap:6px}
+.wn-item{font-family:var(--mono);font-size:10px;padding:3px 9px;border-radius:var(--r);background:var(--bg3);border:1px solid var(--bd2);color:var(--tx2)}
 
-/* ── SECTOR PAGE ── */
-.sector-banner{border:1px solid var(--border);border-radius:8px;padding:18px 22px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
-.sector-banner-left{}
-.sector-label{font-family:var(--mono);font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:var(--text3);margin-bottom:4px}
-.sector-name{font-family:var(--display);font-size:36px;letter-spacing:0.06em}
-.sector-desc{font-size:12px;color:var(--text2);margin-top:4px;max-width:480px;line-height:1.5}
-.sector-stats{display:flex;gap:20px}
-.s-stat{}
-.s-stat-label{font-family:var(--mono);font-size:9px;color:var(--text3)}
-.s-stat-val{font-family:var(--mono);font-size:18px;font-weight:500;margin-top:2px}
-
-/* STOCK TABLE */
+/* SECTOR PAGE */
+.sector-banner{border:1px solid var(--bd);border-radius:var(--r2);padding:16px 20px;margin-bottom:12px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.sec-name-big{font-family:var(--mono);font-size:26px;font-weight:500;letter-spacing:.04em}
+.sec-desc-txt{font-size:12px;color:var(--tx2);margin-top:4px;max-width:480px}
+.sec-stats{display:flex;gap:20px;flex-wrap:wrap}
+.ss-label{font-family:var(--mono);font-size:9px;color:var(--tx3)}
+.ss-val{font-family:var(--mono);font-size:18px;font-weight:500;margin-top:2px}
 .stk-table{width:100%;border-collapse:collapse}
-.stk-table th{font-family:var(--mono);font-size:9px;letter-spacing:0.06em;text-transform:uppercase;color:var(--text3);text-align:left;padding:0 0 10px;border-bottom:1px solid var(--border)}
+.stk-table th{font-family:var(--mono);font-size:9px;letter-spacing:.06em;text-transform:uppercase;color:var(--tx3);text-align:left;padding:0 0 9px;border-bottom:1px solid var(--bd)}
 .stk-table th:not(:first-child){text-align:right}
-.stk-table td{padding:10px 0;border-bottom:1px solid var(--border);font-size:12px}
+.stk-table td{padding:9px 0;border-bottom:1px solid var(--bd);font-size:11px}
 .stk-table tr:last-child td{border-bottom:none}
 .stk-table td:not(:first-child){text-align:right;font-family:var(--mono)}
-.stk-ticker{font-family:var(--mono);font-size:13px;color:var(--blue);font-weight:600}
-.stk-co{font-size:10px;color:var(--text3);margin-top:1px}
-.sig{font-family:var(--mono);font-size:10px;padding:2px 8px;border-radius:3px}
+.stk-ticker{font-family:var(--mono);font-size:12px;color:var(--blue);font-weight:500}
+.stk-co{font-size:9px;color:var(--tx3);margin-top:1px}
+.sig{font-family:var(--mono);font-size:9px;padding:2px 7px;border-radius:3px}
 .sig-buy{background:var(--gd);color:var(--green)}
-.sig-hold{background:var(--bg4);color:var(--text3)}
+.sig-hold{background:var(--bg4);color:var(--tx3)}
 .sig-sell{background:var(--rd);color:var(--red)}
-
-/* WEEKLY WATCH */
-.watch-item{background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:12px 14px;margin-bottom:8px}
+.watch-item{background:var(--bg3);border:1px solid var(--bd);border-radius:var(--r);padding:10px 12px;margin-bottom:8px}
 .watch-item:last-child{margin-bottom:0}
-.watch-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:6px}
-.watch-title{font-size:13px;font-weight:500;color:var(--text);line-height:1.4}
-.watch-body{font-size:12px;color:var(--text2);line-height:1.6}
-.wtag{font-family:var(--mono);font-size:9px;padding:2px 7px;border-radius:3px;flex-shrink:0}
+.watch-top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:5px}
+.watch-title{font-size:12px;font-weight:500;color:var(--tx);line-height:1.4}
+.watch-body{font-size:11px;color:var(--tx2);line-height:1.6}
+.wtag{font-family:var(--mono);font-size:9px;padding:2px 6px;border-radius:3px;flex-shrink:0}
 .wtag-bull{background:var(--gd);color:var(--green)}
 .wtag-bear{background:var(--rd);color:var(--red)}
 .wtag-watch{background:var(--ad);color:var(--amber)}
 
 /* LOADING / ERROR */
-.loading{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:48px;gap:12px}
-.loading-bar{width:160px;height:2px;background:var(--bg4);border-radius:1px;overflow:hidden}
-.loading-fill{height:100%;background:var(--blue);animation:load 1.4s ease-in-out infinite;border-radius:1px}
+.loading-wrap{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px;gap:12px}
+.loading-bar{width:140px;height:2px;background:var(--bg4);border-radius:1px;overflow:hidden}
+.loading-fill{height:100%;background:var(--blue);animation:load 1.3s ease-in-out infinite;border-radius:1px}
 @keyframes load{0%{width:0;margin-left:0}50%{width:100%;margin-left:0}100%{width:0;margin-left:100%}}
-.loading-txt{font-family:var(--mono);font-size:11px;color:var(--text3)}
-.err{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:48px;gap:8px;text-align:center}
-.err-ico{font-size:28px}
-.err-title{font-size:14px;color:var(--text);font-weight:500}
-.err-desc{font-size:12px;color:var(--text3)}
-
-/* UTILS */
-.up{color:var(--green)}.down{color:var(--red)}.flat{color:var(--text3)}
-.mb14{margin-bottom:14px}
+.loading-txt{font-family:var(--mono);font-size:10px;color:var(--tx3)}
+.err-wrap{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:48px;gap:8px;text-align:center}
+.err-title{font-size:13px;color:var(--tx);font-weight:500}
+.err-desc{font-size:11px;color:var(--tx3);max-width:320px;line-height:1.6}
 </style>
 </head>
 <body>
@@ -250,99 +260,116 @@ main{padding:24px 0 60px}
 <header>
 <div class="hdr">
   <div class="logo">
-    <div class="logo-box">US</div>
+    <div class="logo-mark">AI</div>
     <div>
-      <div class="logo-name">MARKET INTEL</div>
-      <div class="logo-sub">미국 시장 인텔리전스</div>
+      <div class="logo-text">MARKET INTELLIGENCE</div>
+      <div class="logo-ver">INSTITUTIONAL GRADE · AI-POWERED</div>
     </div>
   </div>
-  <div class="hdr-mid" id="hdrIndices"></div>
+  <div class="hdr-idx" id="hdrIdx"></div>
   <div class="hdr-right">
-    <div class="live"><span class="live-dot"></span>LIVE</div>
+    <div class="live-badge"><span class="live-dot"></span>LIVE</div>
     <div class="clock" id="clock"></div>
-    <button class="load-btn" id="loadBtn" onclick="loadData()"><span id="loadIco">↻</span> 데이터 갱신</button>
+    <button class="refresh-btn" id="refreshBtn" onclick="loadData()"><span id="refreshIco">↻</span> REFRESH</button>
   </div>
 </div>
 </header>
 
-<div class="nav">
-<div class="nav-in">
-  <button class="tab on" onclick="goTab('overview')" id="tab-overview">◈ 전체 개요</button>
-  <button class="tab" onclick="goTab('tech')" id="tab-tech"><span class="tab-dot" style="background:#3d8ef0"></span>기술</button>
-  <button class="tab" onclick="goTab('energy')" id="tab-energy"><span class="tab-dot" style="background:#f5a623"></span>에너지</button>
-  <button class="tab" onclick="goTab('finance')" id="tab-finance"><span class="tab-dot" style="background:#00c896"></span>금융</button>
-  <button class="tab" onclick="goTab('crypto')" id="tab-crypto"><span class="tab-dot" style="background:#9b6dff"></span>코인</button>
+<div class="nav-wrap">
+<div class="nav-inner">
+  <button class="nav-tab on" onclick="goTab('overview')" id="tab-overview">◈ Overview</button>
+  <button class="nav-tab" onclick="goTab('tech')" id="tab-tech"><span class="nav-dot" style="background:#3d8ef0"></span>Tech</button>
+  <button class="nav-tab" onclick="goTab('energy')" id="tab-energy"><span class="nav-dot" style="background:#f0a020"></span>Energy</button>
+  <button class="nav-tab" onclick="goTab('finance')" id="tab-finance"><span class="nav-dot" style="background:#00c896"></span>Finance</button>
+  <button class="nav-tab" onclick="goTab('crypto')" id="tab-crypto"><span class="nav-dot" style="background:#9b6dff"></span>Crypto</button>
 </div>
 </div>
 
 <main>
 <div class="wrap">
 
-<!-- ══ OVERVIEW ══ -->
+<!-- OVERVIEW -->
 <div class="page on" id="page-overview">
 
-  <!-- Index Row -->
-  <div class="idx-grid" id="idxGrid">
-    <div class="loading" style="grid-column:1/-1;padding:24px"><div class="loading-bar"><div class="loading-fill"></div></div></div>
+  <!-- Index Strip -->
+  <div class="card mb12" id="idxStrip">
+    <div class="loading-wrap" style="padding:16px"><div class="loading-bar"><div class="loading-fill"></div></div></div>
   </div>
 
-  <div class="gw">
-    <!-- News -->
-    <div class="card">
-      <div class="card-hdr">
-        <div class="card-title">📰 주요 뉴스</div>
-        <div class="card-tag" id="newsTime">-</div>
-      </div>
-      <div class="card-body" id="newsBody"><div class="loading"><div class="loading-bar"><div class="loading-fill"></div></div><div class="loading-txt">뉴스 로딩 중...</div></div></div>
-    </div>
+  <!-- Market Story -->
+  <div class="story-wrap mb12" id="storyWrap">
+    <div class="loading-wrap" style="padding:20px"><div class="loading-bar"><div class="loading-fill"></div></div><div class="loading-txt">AI 시장 분석 생성 중...</div></div>
+  </div>
 
-    <!-- Right column -->
-    <div style="display:flex;flex-direction:column;gap:14px">
-      <!-- Mood -->
+  <div class="g-main mb12">
+
+    <!-- LEFT -->
+    <div style="display:flex;flex-direction:column;gap:12px">
+
       <div class="card">
-        <div class="card-hdr"><div class="card-title">🌡 시장 온도계</div></div>
-        <div class="card-body" id="moodBody"><div class="loading" style="padding:20px"><div class="loading-bar"><div class="loading-fill"></div></div></div></div>
+        <div class="card-hdr">
+          <div class="card-title">⬡ 주요 뉴스</div>
+          <div class="card-tag" id="newsTime">-</div>
+        </div>
+        <div id="newsBody"><div class="loading-wrap"><div class="loading-bar"><div class="loading-fill"></div></div></div></div>
       </div>
-      <!-- Buzz -->
+
+      <div class="g-3">
+        <div class="card">
+          <div class="card-hdr"><div class="card-title">▦ 섹터 동향</div></div>
+          <div class="card-body" id="sectorBody"><div class="loading-wrap" style="padding:16px"><div class="loading-bar"><div class="loading-fill"></div></div></div></div>
+        </div>
+        <div class="card">
+          <div class="card-hdr"><div class="card-title">◎ 경제지표</div></div>
+          <div class="card-body" id="econBody"><div class="loading-wrap" style="padding:16px"><div class="loading-bar"><div class="loading-fill"></div></div></div></div>
+        </div>
+        <div class="card">
+          <div class="card-hdr"><div class="card-title">◈ 버즈 종목</div></div>
+          <div class="card-body" id="buzzBody"><div class="loading-wrap" style="padding:16px"><div class="loading-bar"><div class="loading-fill"></div></div></div></div>
+        </div>
+      </div>
+
       <div class="card">
-        <div class="card-hdr"><div class="card-title">🔥 버즈량 TOP 종목</div></div>
-        <div class="card-body" id="buzzBody"><div class="loading" style="padding:20px"><div class="loading-bar"><div class="loading-fill"></div></div></div></div>
+        <div class="card-hdr">
+          <div class="card-title">◷ 주요 일정 (KST)</div>
+          <div class="card-tag">향후 5거래일</div>
+        </div>
+        <div class="card-body" id="schedBody"><div class="loading-wrap" style="padding:16px"><div class="loading-bar"><div class="loading-fill"></div></div></div></div>
       </div>
-    </div>
-  </div>
 
-  <div class="g2">
-    <!-- Sectors -->
-    <div class="card">
-      <div class="card-hdr"><div class="card-title">⬡ 섹터별 동향</div></div>
-      <div class="card-body" id="sectorBody"><div class="loading" style="padding:20px"><div class="loading-bar"><div class="loading-fill"></div></div></div></div>
     </div>
-    <!-- Economic Indicators -->
-    <div class="card">
-      <div class="card-hdr"><div class="card-title">📈 주요 경제지표</div></div>
-      <div class="card-body" id="econBody"><div class="loading" style="padding:20px"><div class="loading-bar"><div class="loading-fill"></div></div></div></div>
-    </div>
-  </div>
 
-  <div class="g2">
-    <!-- Schedule -->
-    <div class="card">
-      <div class="card-hdr">
-        <div class="card-title">📅 주요 일정 (KST)</div>
-        <div class="card-tag">향후 5거래일</div>
+    <!-- RIGHT PANEL -->
+    <div style="display:flex;flex-direction:column;gap:12px">
+
+      <div class="card">
+        <div class="card-hdr"><div class="card-title">▲ 시장 온도계</div></div>
+        <div class="card-body" id="moodBody"><div class="loading-wrap" style="padding:16px"><div class="loading-bar"><div class="loading-fill"></div></div></div></div>
       </div>
-      <div class="card-body" id="schedBody"><div class="loading" style="padding:20px"><div class="loading-bar"><div class="loading-fill"></div></div></div></div>
-    </div>
-    <!-- Outlook -->
-    <div class="card">
-      <div class="card-hdr"><div class="card-title">🔭 시장 전망 · 전략</div></div>
-      <div class="card-body" id="outlookBody"><div class="loading" style="padding:20px"><div class="loading-bar"><div class="loading-fill"></div></div></div></div>
+
+      <div class="card">
+        <div class="card-hdr">
+          <div class="card-title">◉ Actionable Insight</div>
+          <div class="card-tag">리스크 관리 관점</div>
+        </div>
+        <div id="insightBody"><div class="loading-wrap"><div class="loading-bar"><div class="loading-fill"></div></div></div></div>
+      </div>
+
     </div>
   </div>
 
-</div><!-- /overview -->
+  <!-- Scenario -->
+  <div class="card">
+    <div class="card-hdr">
+      <div class="card-title">◐ Scenario Analysis</div>
+      <div class="card-tag" id="scenarioConf">신뢰도: -</div>
+    </div>
+    <div class="card-body" id="scenarioBody"><div class="loading-wrap" style="padding:16px"><div class="loading-bar"><div class="loading-fill"></div></div></div></div>
+  </div>
 
-<!-- ══ SECTOR PAGES ══ -->
+</div>
+
+<!-- SECTOR PAGES -->
 <div class="page" id="page-tech"></div>
 <div class="page" id="page-energy"></div>
 <div class="page" id="page-finance"></div>
@@ -353,544 +380,180 @@ main{padding:24px 0 60px}
 </main>
 
 <script>
-/* ── SECTOR CONFIG ── */
-const SECTORS = {
-  tech:    { name:'기술', color:'#3d8ef0', desc:'반도체·AI·소프트웨어·클라우드', tickers:['NVDA','AAPL','MSFT','META','GOOGL','AMZN','AMD','TSLA','ORCL','ADBE'], etf:'QQQ' },
-  energy:  { name:'에너지', color:'#f5a623', desc:'원유·천연가스·재생에너지·정유', tickers:['XOM','CVX','COP','SLB','MPC','PSX','VLO','OXY','HAL','DVN'], etf:'XLE' },
-  finance: { name:'금융', color:'#00c896', desc:'은행·보험·핀테크·자산운용', tickers:['JPM','BAC','GS','MS','WFC','BLK','C','AXP','V','MA'], etf:'XLF' },
-  crypto:  { name:'코인', color:'#9b6dff', desc:'비트코인·이더리움·블록체인 기업', tickers:['COIN','MSTR','MARA','RIOT','CLSK','HUT','IBIT','BITB','FBTC','GBTC'], etf:'BITO' },
+const SECTORS={
+  tech:   {name:'Tech',   color:'#3d8ef0',desc:'반도체·AI·소프트웨어·클라우드',tickers:['NVDA','AAPL','MSFT','META','GOOGL','AMZN','AMD','TSLA','ORCL','ADBE'],etf:'QQQ'},
+  energy: {name:'Energy', color:'#f0a020',desc:'원유·천연가스·재생에너지·정유', tickers:['XOM','CVX','COP','SLB','MPC','PSX','VLO','OXY','HAL','DVN'],etf:'XLE'},
+  finance:{name:'Finance',color:'#00c896',desc:'은행·보험·핀테크·자산운용',    tickers:['JPM','BAC','GS','MS','WFC','BLK','C','AXP','V','MA'],etf:'XLF'},
+  crypto: {name:'Crypto', color:'#9b6dff',desc:'비트코인·이더리움·블록체인 기업',tickers:['COIN','MSTR','MARA','RIOT','CLSK','HUT','IBIT','BITB','FBTC','GBTC'],etf:'IBIT'},
 };
+let DATA=null,SECTOR_DATA={},currentTab='overview';
 
-let DATA = null;
-let SECTOR_DATA = {};
-let currentTab = 'overview';
-
-/* ── CLOCK ── */
-function tick() {
-  const kst = new Date().toLocaleString('ko-KR',{timeZone:'Asia/Seoul',hour:'2-digit',minute:'2-digit',second:'2-digit'});
-  const et  = new Date().toLocaleString('en-US',{timeZone:'America/New_York',hour:'2-digit',minute:'2-digit'});
-  document.getElementById('clock').textContent = `KST ${kst}  ·  ET ${et}`;
+function tick(){
+  const k=new Date().toLocaleString('ko-KR',{timeZone:'Asia/Seoul',hour:'2-digit',minute:'2-digit',second:'2-digit'});
+  const e=new Date().toLocaleString('en-US',{timeZone:'America/New_York',hour:'2-digit',minute:'2-digit'});
+  const el=document.getElementById('clock');if(el)el.textContent=`KST ${k}  ·  ET ${e}`;
 }
-setInterval(tick,1000); tick();
+setInterval(tick,1000);tick();
 
-/* ── TAB ── */
-function goTab(t) {
-  currentTab = t;
-  document.querySelectorAll('.tab').forEach(el=>el.classList.remove('on'));
+function goTab(t){
+  currentTab=t;
+  document.querySelectorAll('.nav-tab').forEach(el=>el.classList.remove('on'));
   document.getElementById('tab-'+t).classList.add('on');
   document.querySelectorAll('.page').forEach(el=>el.classList.remove('on'));
   document.getElementById('page-'+t).classList.add('on');
-  if (t !== 'overview' && !SECTOR_DATA[t]) loadSector(t);
+  if(t!=='overview'&&!SECTOR_DATA[t])loadSector(t);
 }
 
-/* ── HELPERS ── */
-const fmt = n => n?.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2}) ?? '-';
-const pct = n => (n >= 0 ? '+' : '') + n?.toFixed(2) + '%';
-const cls = n => n > 0 ? 'up' : n < 0 ? 'down' : 'flat';
-const arr = n => n > 0 ? '▲' : n < 0 ? '▼' : '–';
-const impCls = s => {
-  if(!s) return 'imp-low';
-  const l = s.toLowerCase();
-  if(l==='critical'||l==='high'||l==='높음') return 'imp-high';
-  if(l==='medium'||l==='mid'||l==='보통') return 'imp-mid';
-  return 'imp-low';
-};
-const impLabel = s => {
-  if(!s) return '낮음';
-  const l = s.toLowerCase();
-  if(l==='critical') return '긴급';
-  if(l==='high'||l==='높음') return '높음';
-  if(l==='medium'||l==='mid'||l==='보통') return '보통';
-  return '낮음';
-};
+const cls=n=>n>0?'up':n<0?'down':'flat';
+const arr=n=>n>0?'▲':n<0?'▼':'—';
+const fmt=n=>n?.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})??'-';
+const impCls=s=>{const l=(s||'').toLowerCase();return l==='high'||l==='높음'||l==='critical'?'imp-high':l==='mid'||l==='medium'||l==='보통'?'imp-mid':'imp-low';};
+const impLbl=s=>{const l=(s||'').toLowerCase();return l==='critical'?'CRITICAL':l==='high'||l==='높음'?'HIGH':l==='mid'||l==='medium'||l==='보통'?'MEDIUM':'LOW';};
 
-/* ── RENDER OVERVIEW ── */
-function renderOverview(d) {
-  /* Header indices */
-  const hi = d.indices;
-  const hItems = [
-    {sym:'S&P 500', v:hi.sp500?.value, c:hi.sp500?.change_pct},
-    {sym:'NASDAQ',  v:hi.nasdaq?.value, c:hi.nasdaq?.change_pct},
-    {sym:'DOW',     v:hi.dow?.value,   c:hi.dow?.change_pct},
-    {sym:'VIX',     v:hi.vix?.value,   c:hi.vix?.change},
-  ];
-  document.getElementById('hdrIndices').innerHTML = hItems.map(x=>`
-    <div class="hdr-idx">
-      <div class="hdr-idx-name">${x.sym}</div>
-      <div class="hdr-idx-val ${cls(x.c)}">${fmt(x.v)}</div>
-    </div>`).join('');
+function renderOverview(d){
+  const I=d.indices||{};
+  const ai=d.aiInsight||{};
 
-  /* Index cards */
-  const idxDefs = [
-    {sym:'S&P 500', key:'sp500'},{sym:'NASDAQ', key:'nasdaq'},
-    {sym:'DOW',     key:'dow'},  {sym:'VIX',    key:'vix'}
-  ];
-  document.getElementById('idxGrid').innerHTML = idxDefs.map(def=>{
-    const idx = d.indices[def.key];
-    if(!idx) return '';
-    const chgPct = idx.change_pct ?? idx.change ?? 0;
-    const barW = Math.min(Math.abs(chgPct)*15, 100);
-    const fillColor = chgPct>=0?'var(--green)':'var(--red)';
-    return `
-    <div class="idx-card">
-      <div class="idx-sym">${def.sym}</div>
-      <div class="idx-val">${idx.value?.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})??'-'}</div>
-      <div class="idx-chg ${cls(chgPct)}">${arr(chgPct)} ${chgPct>=0?'+':''}${chgPct?.toFixed(2)}${def.key==='vix'?'':' %'}</div>
-      <div class="idx-bar"><div class="idx-fill" style="width:${barW}%;background:${fillColor}"></div></div>
-    </div>`;
-  }).join('');
+  /* Header */
+  const hItems=[{sym:'S&P 500',v:I.sp500?.value,c:I.sp500?.change_pct},{sym:'NASDAQ',v:I.nasdaq?.value,c:I.nasdaq?.change_pct},{sym:'DOW',v:I.dow?.value,c:I.dow?.change_pct},{sym:'VIX',v:I.vix?.value,c:I.vix?.change}];
+  const hi=document.getElementById('hdrIdx');
+  if(hi)hi.innerHTML=hItems.map(x=>`<div class="idx-item"><div class="idx-sym">${x.sym}</div><div class="idx-val ${cls(x.c)}">${fmt(x.v)}</div></div>`).join('');
+
+  /* Index Strip */
+  const strip=document.getElementById('idxStrip');
+  if(strip)strip.innerHTML=`<div class="idx-strip">${hItems.map(x=>{const p=x.c??0;const bw=Math.min(Math.abs(p)*15,100);return`<div class="idx-cell"><div class="ic-sym">${x.sym}</div><div class="ic-val ${cls(p)}">${fmt(x.v)}</div><div class="ic-chg ${cls(p)}">${arr(p)} ${p>=0?'+':''}${p?.toFixed(2)}${x.sym==='VIX'?'':' %'}</div><div class="ic-bar"><div class="ic-fill" style="width:${bw}%;background:${p>=0?'var(--green)':'var(--red)'}"></div></div></div>`;}).join('')}</div>`;
+
+  /* Market Story */
+  const story=ai.marketStory||d.market_mood?.summary||'';
+  const bias=ai.marketBias||'neutral';
+  const bCls=bias==='risk-off'?'bias-off':bias==='risk-on'?'bias-on':'bias-neu';
+  const bLbl=bias==='risk-off'?'⬇ RISK-OFF':bias==='risk-on'?'⬆ RISK-ON':'→ NEUTRAL';
+  const drivers=ai.drivers||[];
+  const conf=ai.confidenceScore;
+  const sw=document.getElementById('storyWrap');
+  if(sw)sw.innerHTML=`<div class="story-top"><div class="story-eyebrow">Today's Market Story</div><div class="story-headline">${story}</div><div class="story-meta"><span class="bias-chip ${bCls}">${bLbl}</span>${conf!=null?`<span class="conf">신뢰도 ${conf}%</span>`:''}</div></div><div class="story-drivers">${drivers.map(dv=>`<span class="drv ${dv.direction==='neg'?'neg':dv.direction==='pos'?'pos':'warn'}">${dv.icon||''} ${dv.label}</span>`).join('')}</div>`;
 
   /* News */
-  const kstDate = new Date().toLocaleString('ko-KR',{timeZone:'Asia/Seoul',month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'});
-  document.getElementById('newsTime').textContent = kstDate;
-  document.getElementById('newsBody').innerHTML = (d.top_news||[]).map((n,i)=>`
-    <div class="news-item" onclick="this.classList.toggle('open')">
-      <div class="news-top">
-        <span class="news-num">${i+1}</span>
-        <span class="news-hl">${n.headline??''}</span>
-        <span class="news-arrow">›</span>
-      </div>
-      <div class="news-meta">
-        <span class="imp ${impCls(n.importance)}">${impLabel(n.importance)}</span>
-        <span class="news-src">${n.source??''}</span>
-        <span class="news-time">${n.time??''}</span>
-        ${n.impact?`<span class="news-impact">→ ${n.impact}</span>`:''}
-      </div>
-      <div class="news-summary">${n.summary??''}</div>
-    </div>`).join('');
+  const kst=new Date().toLocaleString('ko-KR',{timeZone:'Asia/Seoul',month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'});
+  const ntEl=document.getElementById('newsTime');if(ntEl)ntEl.textContent=kst;
+  const nb=document.getElementById('newsBody');
+  if(nb)nb.innerHTML=(d.top_news||[]).map((n,i)=>`<div class="news-item" onclick="this.classList.toggle('expanded')"><div class="news-row1"><span class="news-num">${i+1}</span><span class="news-hl">${n.headline||''}</span><span class="news-arrow">›</span></div><div class="news-meta"><span class="imp ${impCls(n.importance)}">${impLbl(n.importance)}</span>${n.category?`<span class="news-cat">${n.category}</span>`:''}<span class="news-src">${n.source||''}</span>${n.time?`<span class="news-src">${n.time}</span>`:''} ${n.impact?`<div class="news-impact">→ ${n.impact}</div>`:''}</div><div class="news-summary">${n.summary||''}</div></div>`).join('');
 
-  /* Market mood */
-  const mood = d.market_mood;
-  if(mood) {
-    const score = mood.score??50;
-    const mc = score>=60?'var(--green)':score>=40?'var(--amber)':'var(--red)';
-    const r=26, circ=2*Math.PI*r;
-    document.getElementById('moodBody').innerHTML = `
-      <div class="mood-wrap">
-        <div class="mood-gauge">
-          <svg width="64" height="64" viewBox="0 0 64 64">
-            <circle cx="32" cy="32" r="${r}" fill="none" stroke="var(--bg4)" stroke-width="6"/>
-            <circle cx="32" cy="32" r="${r}" fill="none" stroke="${mc}" stroke-width="6"
-              stroke-dasharray="${circ*score/100} ${circ}" stroke-linecap="round"/>
-          </svg>
-          <div class="mood-center" style="color:${mc}">${score}</div>
-        </div>
-        <div class="mood-info">
-          <div class="mood-label" style="color:${mc}">${mood.label??''}</div>
-          <div class="mood-sub">공포·탐욕 지수</div>
-        </div>
-      </div>
-      <div class="mood-signal">${mood.vix_signal??''}</div>
-      <div class="mood-summary">${mood.summary??''}</div>`;
-  }
-
-  /* Buzz stocks */
-  document.getElementById('buzzBody').innerHTML = (d.buzz_stocks||[]).map(b=>{
-    const chgCls = cls(b.change_pct);
-    return `
-    <div class="buzz-item">
-      <div class="buzz-rank">${b.rank??''}</div>
-      <div style="flex:1;min-width:0">
-        <div style="display:flex;align-items:center;gap:8px">
-          <span class="buzz-ticker">${b.ticker??''}</span>
-          <span class="buzz-name">${b.name??''}</span>
-        </div>
-        <span class="buzz-reason">${b.reason??''}</span>
-      </div>
-      <div class="buzz-heat">${[1,2,3,4,5].map(i=>`<div class="heat-b ${i<=(b.heat??0)?'on':''}"></div>`).join('')}</div>
-      <div class="buzz-chg ${chgCls}">${arr(b.change_pct)} ${b.change_pct>=0?'+':''}${b.change_pct?.toFixed(1)}%</div>
-    </div>`;
-  }).join('');
+  /* Mood */
+  const mood=d.market_mood||{};const score=mood.score??50;const mc=score>=60?'var(--green)':score>=40?'var(--amber)':'var(--red)';const r=24,circ=2*Math.PI*r;
+  const mb=document.getElementById('moodBody');
+  if(mb)mb.innerHTML=`<div class="mood-gauge-wrap"><svg width="56" height="56" viewBox="0 0 56 56" role="img" aria-label="공포탐욕 지수 ${score}"><circle cx="28" cy="28" r="${r}" fill="none" stroke="var(--bg4)" stroke-width="5"/><circle cx="28" cy="28" r="${r}" fill="none" stroke="${mc}" stroke-width="5" stroke-dasharray="${circ*score/100} ${circ}" stroke-linecap="round" transform="rotate(-90 28 28)"/><text x="28" y="33" text-anchor="middle" font-size="12" font-weight="500" fill="${mc}">${score}</text></svg><div><div class="mood-label" style="color:${mc}">${mood.label||''}</div><div class="mood-sub">공포·탐욕 지수</div></div></div><div class="mood-sig">${mood.vix_signal||''}</div><div class="mood-sum">${mood.summary||''}</div>`;
 
   /* Sectors */
-  document.getElementById('sectorBody').innerHTML = (d.sectors||[]).map(s=>{
-    const p = s.change_pct??0;
-    const barW = Math.min(Math.abs(p)*18,50);
-    const barLeft = p>=0 ? '50%' : `calc(50% - ${barW}%)`;
-    return `
-    <div class="sec-row">
-      <div class="sec-name">${s.name}</div>
-      <div class="sec-bar-wrap">
-        <div class="sec-bar-fill" style="width:${barW}%;left:${barLeft};background:${p>=0?'var(--green)':'var(--red)'}"></div>
-      </div>
-      <div class="sec-pct ${cls(p)}">${p>=0?'+':''}${p.toFixed(2)}%</div>
-    </div>`;
-  }).join('');
+  const sb=document.getElementById('sectorBody');
+  if(sb)sb.innerHTML=(d.sectors||[]).map(s=>{const p=s.change_pct??0;const bw=Math.min(Math.abs(p)*18,48);const bl=p>=0?'50%':`calc(50% - ${bw}%)`;return`<div class="sec-row"><div class="sec-name">${s.name}</div><div class="sec-bar"><div class="sec-fill" style="width:${bw}%;left:${bl};background:${p>=0?'var(--green)':'var(--red)'}"></div></div><div class="sec-pct ${cls(p)}">${p>=0?'+':''}${p.toFixed(2)}%</div></div>`;}).join('');
 
-  /* Economic indicators */
-  document.getElementById('econBody').innerHTML = (d.economic_indicators||[]).map(e=>{
-    const chg = e.change??0;
-    return `
-    <div class="econ-item">
-      <div class="econ-name">${e.name}</div>
-      <div class="econ-right">
-        <div class="econ-val">${e.value}${e.unit?' '+e.unit:''}</div>
-        <div class="econ-chg ${cls(chg)}">${arr(chg)} ${Math.abs(chg).toFixed(2)}</div>
-      </div>
-    </div>`;
-  }).join('');
+  /* Econ */
+  const eb=document.getElementById('econBody');
+  if(eb)eb.innerHTML=(d.economic_indicators||[]).map(e=>`<div class="econ-row"><div class="econ-name">${e.name}</div><div class="econ-right"><div class="econ-val">${e.value}${e.unit?' '+e.unit:''}</div><div class="econ-chg ${cls(e.change||0)}">${arr(e.change||0)} ${Math.abs(e.change||0).toFixed(2)}</div></div></div>`).join('');
+
+  /* Buzz */
+  const bb=document.getElementById('buzzBody');
+  if(bb)bb.innerHTML=(d.buzz_stocks||[]).map(b=>`<div class="buzz-row"><div class="buzz-rank">${b.rank||''}</div><div class="buzz-ticker">${b.ticker||''}</div><div class="buzz-info"><div class="buzz-name">${b.name||''}</div><div class="buzz-reason">${b.reason||''}</div></div><div class="buzz-heat">${[1,2,3,4,5].map(i=>`<div class="hb ${i<=(b.heat||0)?'on':''}"></div>`).join('')}</div><div class="buzz-chg ${cls(b.change_pct??0)}">${arr(b.change_pct??0)} ${Math.abs(b.change_pct??0).toFixed(1)}%</div></div>`).join('');
 
   /* Schedule */
-  document.getElementById('schedBody').innerHTML = (d.schedule||[]).map(s=>`
-    <div class="sched-item">
-      <div class="sched-time">
-        <div class="sched-date">${s.date_kst??s.date??''}</div>
-        <div class="sched-kst">${s.time_kst??s.time??''}</div>
-      </div>
-      <div class="sched-body">
-        <div class="sched-title">
-          <span class="imp ${impCls(s.importance)}">${impLabel(s.importance)}</span>
-          ${s.title??''}
-        </div>
-        <div class="sched-desc">${s.description??s.desc??''}</div>
-        <span class="sched-type t-${(s.type??'econ').toLowerCase()}">${
-          {econ:'경제지표',fed:'연준',earn:'실적발표',earnings:'실적발표'}[s.type?.toLowerCase()]??s.type??''
-        }</span>
-      </div>
-    </div>`).join('');
+  const schb=document.getElementById('schedBody');
+  if(schb)schb.innerHTML=(d.schedule||[]).map(s=>`<div class="sched-row"><div class="sched-time"><div class="sched-date">${s.date_kst||s.date||''}</div><div class="sched-kst">${s.time_kst||s.time||''}</div></div><div class="sched-body"><div class="sched-title-row"><span class="imp ${impCls(s.importance)}">${impLbl(s.importance)}</span><span class="sched-title">${s.title||''}</span></div><div class="sched-desc">${s.description||s.desc||''}</div><span class="sched-type t-${(s.type||'econ').replace('earnings','earn')}">${{econ:'경제지표',fed:'연준',earn:'실적',earnings:'실적'}[s.type?.toLowerCase()]??s.type??''}</span></div></div>`).join('');
 
-  /* Market outlook */
-  const out = d.market_outlook;
-  if(out) {
-    const sentColor = out.overall_sentiment==='bullish'?'var(--green)':out.overall_sentiment==='bearish'?'var(--red)':'var(--amber)';
-    const sentLabel = {bullish:'강세 (Bullish)',neutral:'중립 (Neutral)',bearish:'약세 (Bearish)'}[out.overall_sentiment]??out.overall_sentiment??'';
-    document.getElementById('outlookBody').innerHTML = `
-      <div class="outlook-summary">${out.summary??''}</div>
-      ${out.key_risks?.length?`
-      <div class="outlook-section">
-        <div class="outlook-section-title">⚠ 핵심 리스크</div>
-        ${out.key_risks.map(r=>`<div class="outlook-item"><div class="outlook-dot" style="background:var(--red)"></div><span>${r}</span></div>`).join('')}
-      </div>`:''}
-      ${out.strategy?.length?`
-      <div class="outlook-section">
-        <div class="outlook-section-title">🎯 트레이딩 전략</div>
-        ${out.strategy.map(r=>`<div class="outlook-item"><div class="outlook-dot" style="background:var(--blue)"></div><span>${r}</span></div>`).join('')}
-      </div>`:''}
-      <div class="sentiment-badge" style="background:${sentColor}22;color:${sentColor};border:1px solid ${sentColor}44">
-        ${out.overall_sentiment==='bullish'?'↑':out.overall_sentiment==='bearish'?'↓':'→'} ${sentLabel}
-      </div>`;
+  /* Actionable Insight */
+  const ins=ai.actionableInsights||d.market_outlook||{};
+  const ib=document.getElementById('insightBody');
+  if(ib){
+    const eq=ins.equityBias||ins.overall_sentiment||'neutral';
+    const eqB=eq==='bullish'?'b-bull':eq==='bearish'?'b-bear':'b-neu';
+    const eqL=eq==='bullish'?'↑ BULLISH':eq==='bearish'?'↓ BEARISH':'→ NEUTRAL';
+    const rl=(ins.riskLevel||ins.risk_level||'medium').toUpperCase();
+    const rlB=rl==='HIGH'?'b-bear':rl==='LOW'?'b-bull':'b-neu';
+    const rot=ins.sectorRotation||ins.sector_rotation||'-';
+    const wl=Array.isArray(ins.watchList)?ins.watchList:Array.isArray(ins.watch_list)?ins.watch_list:[];
+    const acts=Array.isArray(ins.strategy)?ins.strategy:[];
+    ib.innerHTML=`
+      <div class="ins-row"><div class="ins-label">Equity Bias</div><div class="ins-val"><span class="ins-badge ${eqB}">${eqL}</span></div></div>
+      <div class="ins-row"><div class="ins-label">Sector Rotation</div><div class="ins-val" style="color:var(--tx2)">${rot}</div></div>
+      <div class="ins-row"><div class="ins-label">Risk Level</div><div class="ins-val"><span class="ins-badge ${rlB}">${rl}</span></div></div>
+      ${wl.length?`<div class="ins-row"><div class="ins-label">Watch List</div><div class="ins-val">${wl.map(w=>`<span class="wt">${w}</span>`).join('')}</div></div>`:''}
+      ${acts.length?`<div class="ins-row"><div class="ins-label">Today's Action</div><div class="ins-val">${acts.map(a=>`<div style="margin-bottom:4px;font-size:11px;color:var(--tx2)">· ${a}</div>`).join('')}</div></div>`:''}`;
+  }
+
+  /* Scenario */
+  const sc=ai.scenarios||{};
+  const confEl=document.getElementById('scenarioConf');if(confEl&&conf!=null)confEl.textContent=`신뢰도: ${conf}%`;
+  const scEl=document.getElementById('scenarioBody');
+  if(scEl){
+    const bull=sc.bullish||{};const bear=sc.bearish||{};
+    const trigs=Array.isArray(sc.keyTriggers)?sc.keyTriggers:Array.isArray(d.market_outlook?.key_risks)?d.market_outlook.key_risks:[];
+    const wn=Array.isArray(sc.watchNext)?sc.watchNext:[];
+    scEl.innerHTML=`
+      <div class="sc-grid">
+        <div class="sc-card"><div class="sc-hdr"><div class="sc-icon bull">↑</div><div class="sc-lbl">Bullish Scenario</div></div><div class="sc-body"><div class="sc-desc">${bull.desc||bull||''}</div>${bull.condition?`<div class="sc-cond-lbl">CONDITION</div><div class="sc-cond">${bull.condition}</div>`:''}</div></div>
+        <div class="sc-card"><div class="sc-hdr"><div class="sc-icon bear">↓</div><div class="sc-lbl">Bearish Scenario</div></div><div class="sc-body"><div class="sc-desc">${bear.desc||bear||''}</div>${bear.condition?`<div class="sc-cond-lbl">CONDITION</div><div class="sc-cond">${bear.condition}</div>`:''}</div></div>
+      </div>
+      ${trigs.length?`<div class="trg-card"><div class="trg-lbl">⚠ Key Triggers</div>${trigs.map(t=>`<div class="trg-item"><div class="trg-dot" style="background:var(--red)"></div><span>${t}</span></div>`).join('')}</div>`:``}
+      ${wn.length?`<div class="wn-card"><div class="wn-lbl">◷ What to Watch Next</div><div class="wn-items">${wn.map(w=>`<span class="wn-item">${w}</span>`).join('')}</div></div>`:''}`;
   }
 }
 
-/* ── RENDER SECTOR ── */
-function renderSector(key, d) {
-  const cfg = SECTORS[key];
-  const page = document.getElementById('page-'+key);
-  const perf = d.sector_perf??{};
-  const chgCls = cls(parseFloat(perf.pct??0));
-
-  page.innerHTML = `
-    <div class="sector-banner" style="border-color:${cfg.color}33;background:${cfg.color}08">
-      <div class="sector-banner-left">
-        <div class="sector-label">SECTOR ANALYSIS</div>
-        <div class="sector-name" style="color:${cfg.color}">${cfg.name} 섹터</div>
-        <div class="sector-desc">${cfg.desc}</div>
-      </div>
-      <div class="sector-stats">
-        <div class="s-stat">
-          <div class="s-stat-label">${cfg.etf} ETF</div>
-          <div class="s-stat-val" style="color:${cfg.color}">${perf.etf_val??'-'}</div>
-        </div>
-        <div class="s-stat">
-          <div class="s-stat-label">섹터 등락</div>
-          <div class="s-stat-val ${chgCls}">${perf.pct??'-'}%</div>
-        </div>
-      </div>
+function renderSector(key,d){
+  const cfg=SECTORS[key];const pg=document.getElementById('page-'+key);
+  const perf=d.sector_perf||{};const pN=parseFloat(perf.pct||0);
+  const sigCls=s=>s==='매수'?'sig-buy':s==='매도'?'sig-sell':'sig-hold';
+  pg.innerHTML=`
+    <div class="sector-banner mb12" style="border-color:${cfg.color}33;background:${cfg.color}06">
+      <div><div style="font-family:var(--mono);font-size:9px;letter-spacing:.12em;color:var(--tx3);margin-bottom:4px">SECTOR ANALYSIS</div><div class="sec-name-big" style="color:${cfg.color}">${cfg.name}</div><div class="sec-desc-txt">${cfg.desc}</div></div>
+      <div class="sec-stats"><div><div class="ss-label">${cfg.etf} ETF</div><div class="ss-val" style="color:${cfg.color}">${perf.etf_val||'-'}</div></div><div><div class="ss-label">섹터 등락</div><div class="ss-val ${cls(pN)}">${perf.pct||'-'}%</div></div></div>
     </div>
-
-    <div class="gw2">
-      <div class="card">
-        <div class="card-hdr"><div class="card-title" style="color:${cfg.color}">📰 주요 뉴스 TOP 5</div></div>
-        <div class="card-body">
-          ${(d.top_news||[]).map((n,i)=>`
-            <div class="news-item" onclick="this.classList.toggle('open')">
-              <div class="news-top">
-                <span class="news-num">${i+1}</span>
-                <span class="news-hl">${n.headline??''}</span>
-                <span class="news-arrow">›</span>
-              </div>
-              <div class="news-meta">
-                <span class="imp ${impCls(n.importance)}">${impLabel(n.importance)}</span>
-                <span class="news-src">${n.source??''}</span>
-                <span class="news-time">${n.time??''}</span>
-                ${n.impact?`<span class="news-impact">→ ${n.impact}</span>`:''}
-              </div>
-              <div class="news-summary">${n.summary??''}</div>
-            </div>`).join('')}
-        </div>
-      </div>
-
-      <div>
-        <div class="card mb14">
-          <div class="card-hdr"><div class="card-title">👁 이번 주 참고 포인트</div></div>
-          <div class="card-body">
-            ${(d.weekly_watch||[]).map(w=>`
-              <div class="watch-item">
-                <div class="watch-top">
-                  <div class="watch-title">${w.title??''}</div>
-                  <span class="wtag wtag-${w.tag??'watch'}">${{bull:'강세',bear:'약세',watch:'주시'}[w.tag]??'주시'}</span>
-                </div>
-                <div class="watch-body">${w.body??''}</div>
-              </div>`).join('')}
-          </div>
-        </div>
-      </div>
+    <div class="g-2 mb12">
+      <div class="card"><div class="card-hdr"><div class="card-title" style="color:${cfg.color}">⬡ 섹터 주요 뉴스</div></div><div>${(d.top_news||[]).map((n,i)=>`<div class="news-item" onclick="this.classList.toggle('expanded')"><div class="news-row1"><span class="news-num">${i+1}</span><span class="news-hl">${n.headline||''}</span><span class="news-arrow">›</span></div><div class="news-meta"><span class="imp ${impCls(n.importance)}">${impLbl(n.importance)}</span><span class="news-src">${n.source||''}</span><span class="news-src">${n.time||''}</span>${n.impact?`<div class="news-impact">→ ${n.impact}</div>`:''}</div><div class="news-summary">${n.summary||''}</div></div>`).join('')}</div></div>
+      <div class="card"><div class="card-hdr"><div class="card-title">◉ 이번 주 참고 포인트</div></div><div class="card-body">${(d.weekly_watch||[]).map(w=>`<div class="watch-item"><div class="watch-top"><div class="watch-title">${w.title||''}</div><span class="wtag wtag-${w.tag||'watch'}">${{bull:'강세',bear:'약세',watch:'주시'}[w.tag]||'주시'}</span></div><div class="watch-body">${w.body||''}</div></div>`).join('')}</div></div>
     </div>
-
-    <div class="card">
-      <div class="card-hdr">
-        <div class="card-title">📊 주요 기업 주가 현황</div>
-        <div class="card-tag">${cfg.etf} 구성종목</div>
-      </div>
-      <div class="card-body" style="overflow-x:auto">
-        <table class="stk-table">
-          <thead><tr>
-            <th>종목</th><th>현재가</th><th>등락</th><th>시가총액</th><th>P/E</th><th>시그널</th>
-          </tr></thead>
-          <tbody>
-            ${(d.stocks||[]).map(s=>`
-              <tr>
-                <td><div class="stk-ticker">${s.ticker??''}</div><div class="stk-co">${s.name??''}</div></td>
-                <td>$${s.price??'-'}</td>
-                <td class="${cls(parseFloat(s.change??0))}">${arr(parseFloat(s.change??0))} ${s.change??'-'}</td>
-                <td style="color:var(--text2)">${s.mktcap??'-'}</td>
-                <td style="color:var(--text2)">${s.pe??'-'}</td>
-                <td><span class="sig sig-${(s.signal??'hold')==='매수'?'buy':(s.signal??'hold')==='매도'?'sell':'hold'}">${s.signal??'중립'}</span></td>
-              </tr>`).join('')}
-          </tbody>
-        </table>
-      </div>
-    </div>`;
+    <div class="card"><div class="card-hdr"><div class="card-title">◎ 주요 기업 주가 현황</div><div class="card-tag">${cfg.etf} 구성종목</div></div><div class="card-body" style="overflow-x:auto"><table class="stk-table"><thead><tr><th>종목</th><th>현재가</th><th>등락</th><th>시가총액</th><th>P/E</th><th>시그널</th></tr></thead><tbody>${(d.stocks||[]).map(s=>`<tr><td><div class="stk-ticker">${s.ticker||''}</div><div class="stk-co">${s.name||''}</div></td><td>$${s.price||'-'}</td><td class="${cls(parseFloat(s.change||0))}">${arr(parseFloat(s.change||0))} ${s.change||'-'}</td><td style="color:var(--tx2)">${s.mktcap||'-'}</td><td style="color:var(--tx2)">${s.pe||'-'}</td><td><span class="sig ${sigCls(s.signal)}">${s.signal||'중립'}</span></td></tr>`).join('')}</tbody></table></div></div>`;
 }
 
-/* ── LOAD JSON FROM FILE ── */
-async function loadData() {
-  const btn = document.getElementById('loadBtn');
-  const ico = document.getElementById('loadIco');
-  btn.disabled = true;
-  ico.className = 'spin';
-
-  /* Try preloaded data first */
-  if (window.MARKET_DATA || window.__PRELOADED_DATA__) {
-    const d = window.MARKET_DATA || window.__PRELOADED_DATA__;
-    DATA = d;
-    renderOverview(d);
-    if(currentTab !== 'overview') loadSector(currentTab);
-    btn.disabled = false; ico.className = '';
-    return;
+function loadData(){
+  const btn=document.getElementById('refreshBtn');const ico=document.getElementById('refreshIco');
+  if(btn){btn.disabled=true;ico.className='spin'}
+  if(window.MARKET_DATA||window.__PRELOADED_DATA__){
+    DATA=window.MARKET_DATA||window.__PRELOADED_DATA__;renderOverview(DATA);
+    if(currentTab!=='overview')loadSector(currentTab);
+    if(btn){btn.disabled=false;ico.className=''}return;
   }
-
-  /* Try loading from reports folder (same directory) */
-  const today = new Date().toLocaleDateString('sv-SE'); // YYYY-MM-DD
-  const paths = [
-    `reports/market_data_${today}.json`,
-    `market_data_${today}.json`,
-    `reports/market_data.json`,
-    `market_data.json`,
-  ];
-
-  let loaded = false;
-  for (const path of paths) {
-    try {
-      const res = await fetch(path);
-      if (res.ok) {
-        DATA = await res.json();
-        renderOverview(DATA);
-        loaded = true;
-        break;
-      }
-    } catch(_) {}
-  }
-
-  if (!loaded) {
-    /* Show helpful message */
-    const errHtml = `
-      <div class="err">
-        <div class="err-ico">📂</div>
-        <div class="err-title">JSON 데이터 파일이 없습니다</div>
-        <div class="err-desc" style="max-width:320px;line-height:1.7">
-          <strong>market_report_auto.bat</strong> 을 먼저 실행하면<br>
-          <code style="font-size:10px;color:var(--blue)">reports/market_data_${today}.json</code><br>
-          파일이 생성되고 대시보드가 자동으로 채워집니다.
-        </div>
-      </div>`;
-    ['newsBody','idxGrid','moodBody','buzzBody','sectorBody','econBody','schedBody','outlookBody'].forEach(id=>{
-      const el = document.getElementById(id);
-      if(el) el.innerHTML = errHtml;
-    });
-  }
-
-  btn.disabled = false; ico.className = '';
+  const today=new Date().toLocaleDateString('sv-SE');
+  const paths=[`reports/market_data_${today}.json`,`market_data_${today}.json`];
+  (async()=>{
+    for(const p of paths){try{const r=await fetch(p);if(r.ok){DATA=await r.json();renderOverview(DATA);break;}}catch(_){}}
+    if(!DATA){['newsBody','sectorBody','econBody','buzzBody','schedBody','moodBody','insightBody','scenarioBody','storyWrap'].forEach(id=>{const el=document.getElementById(id);if(el)el.innerHTML=`<div class="err-wrap"><div class="err-title">데이터 없음</div><div class="err-desc">run_market_update.bat 실행 후 새로고침하세요</div></div>`;});}
+    if(btn){btn.disabled=false;ico.className=''}
+  })();
 }
 
-async function loadSector(key) {
-  const page = document.getElementById('page-'+key);
-  page.innerHTML = `<div class="loading" style="padding:80px"><div class="loading-bar"><div class="loading-fill"></div></div><div class="loading-txt">${SECTORS[key].name} 섹터 데이터 로딩 중...</div></div>`;
-
-  /* 1. 이미 캐시된 데이터 */
-  if (SECTOR_DATA[key]) { renderSector(key, SECTOR_DATA[key]); return; }
-
-  /* 2. HTML에 내장된 프리로드 데이터 */
-  if (window.SECTOR_PRELOAD && window.SECTOR_PRELOAD[key]) {
-    SECTOR_DATA[key] = window.SECTOR_PRELOAD[key];
-    renderSector(key, SECTOR_DATA[key]);
-    return;
+async function loadSector(key){
+  const pg=document.getElementById('page-'+key);
+  pg.innerHTML=`<div class="loading-wrap" style="padding:80px"><div class="loading-bar"><div class="loading-fill"></div></div><div class="loading-txt">${SECTORS[key].name} 데이터 로딩 중...</div></div>`;
+  if(SECTOR_DATA[key]){renderSector(key,SECTOR_DATA[key]);return;}
+  if(window.SECTOR_PRELOAD&&window.SECTOR_PRELOAD[key]){SECTOR_DATA[key]=window.SECTOR_PRELOAD[key];renderSector(key,SECTOR_DATA[key]);return;}
+  const today=new Date().toLocaleDateString('sv-SE');
+  for(const p of[`reports/sector_${key}_${today}.json`,`reports/sector_${key}.json`]){
+    try{const r=await fetch(p);if(r.ok){SECTOR_DATA[key]=await r.json();renderSector(key,SECTOR_DATA[key]);return;}}catch(_){}
   }
-
-  const today = new Date().toLocaleDateString('sv-SE');
-  const paths = [
-    `reports/sector_${key}_${today}.json`,
-    `reports/sector_${key}.json`,
-    `sector_${key}_${today}.json`,
-  ];
-  for (const path of paths) {
-    try {
-      const res = await fetch(path);
-      if(res.ok) { SECTOR_DATA[key] = await res.json(); renderSector(key, SECTOR_DATA[key]); return; }
-    } catch(_) {}
-  }
-
-  /* Fallback: use preloaded sector data or overview */
-  if (window.SECTOR_PRELOAD && window.SECTOR_PRELOAD[key]) {
-    SECTOR_DATA[key] = window.SECTOR_PRELOAD[key];
-    renderSector(key, SECTOR_DATA[key]);
-  } else if (DATA) {
-    const sec = DATA.sectors?.find(s=>s.en?.toLowerCase().includes(key));
-    const pctVal = sec ? (sec.change_pct>=0?'+':'')+sec.change_pct.toFixed(2) : '0.00';
-    renderSector(key, {
-      sector_perf: { pct: pctVal, etf_val:'-' },
-      top_news: DATA.top_news?.slice(0,3)??[],
-      stocks: [], weekly_watch: []
-    });
-  } else {
-    page.innerHTML = `<div class="err" style="margin-top:40px"><div class="err-ico">📂</div><div class="err-title">섹터 데이터 없음</div><div class="err-desc">market_report_auto.bat 실행 후 새로고침하세요</div></div>`;
-  }
+  if(DATA){const sec=DATA.sectors?.find(s=>s.en?.toLowerCase().includes(key));renderSector(key,{sector_perf:{pct:sec?(sec.change_pct>=0?'+':'')+sec.change_pct.toFixed(2):'0',etf_val:'-'},top_news:DATA.top_news?.slice(0,3)??[],stocks:[],weekly_watch:[]});}
+  else pg.innerHTML=`<div class="err-wrap" style="padding:80px"><div class="err-title">섹터 데이터 없음</div></div>`;
 }
 
-/* ── INIT ── */
-window.addEventListener('DOMContentLoaded', loadData);
+window.addEventListener('DOMContentLoaded',loadData);
 </script>
 
+<!-- AUTO-INJECTED DATA — replaced by update_market.py -->
 <script>
 /* ── SECTOR PRELOADED DATA (2026-05-16) ── */
-window.SECTOR_PRELOAD = {"tech":{"sector_perf":{"pct":"-1.50","direction":"down","etf":"XLK","etf_val":"471.20","etf_chg":"-1.5%"},"top_news":[{"rank":1,"headline":"트럼프-시진핑 회담 실망 — 이란 해법 없이 기술주 차익실현 매도 폭발","summary":"정상회담이 이란 문제 해결 없이 종료되며 전날 급등했던 기술주에서 대규모 차익실현 매도가 나왔다. 나스닥 -1.3%, NVDA -2%, INTC -5%, AMD -3%, Micron -4% 등 반도체 전반이 급락했다.","source":"CNBC / Vital Knowledge","time":"2026-05-16","importance":"high","impact":"부정 — 기술주 단기 과매수 해소 구간 진입"},{"rank":2,"headline":"NVDA 5/20 실적 앞두고 포지션 조정 — 컨센서스 매출 $788억 유지","summary":"엔비디아가 -2% 하락하며 다음 주 실적 발표(5/20 장 마감 후)를 앞두고 포지션 조정 매물이 출회됐다. 월가 컨센서스는 매출 $788억, EPS $1.77으로 유지되고 있으며, 실적이 이번 주 하락분을 되돌릴 핵심 촉매다.","source":"WSJ / Bloomberg","time":"2026-05-16","importance":"high","impact":"중립 — 실적 기대감은 유효, 발표 전 변동성 확대 구간"},{"rank":3,"headline":"10년물 금리 4.55% — 연중 최고치로 고PER 기술주 DCF 밸류에이션 압박","summary":"10년물 국채금리가 9bp 급등해 4.55%를 기록하며 나스닥 P/E 28배의 할인율 부담이 커지고 있다. 연준 금리 인상 가능성이 45%까지 상승해 성장주에 구조적 역풍이 강해졌다.","source":"Charles Schwab / CME FedWatch","time":"2026-05-16","importance":"high","impact":"부정 — 금리 상승이 기술주 밸류에이션 직접 압박"},{"rank":4,"headline":"Cerebras(CBRS) IPO 이틀째 -4% 반락 — 전날 +68% 급등 후 차익실현","summary":"AI 칩 메이커 Cerebras가 나스닥 상장 이틀째 -4% 하락하며 전날 급등분 일부를 반납했다. 시총은 여전히 $950억 수준을 유지하며, SpaceX·OpenAI·Anthropic 등 대형 기술 IPO 파이프라인의 시금석으로 평가받고 있다.","source":"CNBC / TheStreet","time":"2026-05-16","importance":"mid","impact":"중립 — AI 투자 열기 지속, 단기 변동성 확대"},{"rank":5,"headline":"CSCO +0.5% 안정 — 전날 +13% 갭업 후 AI 수주 모멘텀 유지","summary":"시스코가 전날의 +13% 갭업 이후 소폭 상승 마감하며 AI 네트워킹 수주 $90억 상향의 모멘텀을 유지했다. 전체 시장 하락 속에서도 방어적 흐름을 보이며 AI 인프라 테마의 견고함을 보여줬다.","source":"Bloomberg","time":"2026-05-16","importance":"low","impact":"긍정 — AI 인프라 수요 사이클 지속 확인"}],"stocks":[{"ticker":"NVDA","name":"엔비디아","price":"223.24","change":"-2.0%","mktcap":"5.20T","pe":"50.8","signal":"매수"},{"ticker":"AAPL","name":"애플","price":"295.28","change":"-1.7%","mktcap":"4.43T","pe":"31.9","signal":"매수"},{"ticker":"MSFT","name":"마이크로소프트","price":"503.53","change":"-1.5%","mktcap":"3.74T","pe":"35.6","signal":"매수"},{"ticker":"META","name":"메타","price":"671.12","change":"-1.7%","mktcap":"1.70T","pe":"26.8","signal":"매수"},{"ticker":"GOOGL","name":"알파벳","price":"182.41","change":"-1.7%","mktcap":"2.22T","pe":"22.1","signal":"매수"},{"ticker":"AMZN","name":"아마존","price":"222.18","change":"-1.2%","mktcap":"2.35T","pe":"44.1","signal":"매수"},{"ticker":"AMD","name":"AMD","price":"149.67","change":"-3.0%","mktcap":"0.24T","pe":"37.5","signal":"중립"},{"ticker":"TSLA","name":"테슬라","price":"438.76","change":"-1.4%","mktcap":"1.41T","pe":"70.6","signal":"중립"},{"ticker":"INTC","name":"인텔","price":"22.80","change":"-5.0%","mktcap":"0.10T","pe":"N/A","signal":"매도"},{"ticker":"CSCO","name":"시스코","price":"74.20","change":"+0.5%","mktcap":"0.30T","pe":"18.2","signal":"매수"}],"weekly_watch":[{"title":"NVDA 5/20 실적 — 시장 전체 방향성 결정할 최대 이벤트","body":"엔비디아 FY27 Q1 실적(5/20 장 마감 후) 컨센서스는 매출 $788억, EPS $1.77이다. 데이터센터 가이던스가 예상을 상회하면 이번 주 하락분을 단숨에 되돌릴 수 있다. $215(NVDA) 레벨이 단기 핵심 지지선이다.","tag":"bull"},{"title":"금리 4.55% + 연준 인상 가능성 45% — 기술주 밸류에이션 재조정 가속","body":"10년물 금리가 4.55%로 연중 최고치를 기록하며 나스닥 고PER 종목의 DCF 가치를 직접 압박하고 있다. Kevin Warsh 신임 연준 의장이 매파 성향으로 알려진 만큼 첫 발언(5/21 예정)이 추가 하락 트리거가 될 수 있다.","tag":"bear"},{"title":"CSCO·AI 인프라 모멘텀 — 실적 갭업 이후 안정 여부 확인","body":"시스코가 AI 수주 $90억 상향 후에도 시장 약세 속 방어적 흐름을 보인 것은 AI 인프라 수요의 견고함을 시사한다. NVDA 실적 이후 AI 인프라 ETF(CIBR, IGV) 방향성 재점검이 필요하다.","tag":"watch"}]},"energy":{"sector_perf":{"pct":"+1.60","direction":"up","etf":"XLE","etf_val":"99.37","etf_chg":"+1.6%"},"top_news":[{"rank":1,"headline":"에너지 섹터 +1.6% 유일 상승 — 전 섹터 하락 속 방어적 역할","summary":"S&P 500 전 섹터가 하락하는 가운데 에너지만 +1.6% 상승하며 방어적 섹터로서 역할을 했다. 이란 전쟁 리스크 프리미엄이 WTI $102~$103 구간을 유지시키며 에너지 기업의 이익 전망을 뒷받침하고 있다.","source":"CNBC / Reuters","time":"2026-05-16","importance":"high","impact":"긍정 — 지정학 리스크 구간에서 에너지주 방어적 매력 부각"},{"rank":2,"headline":"WTI $102.80 — 이란 협상 공백으로 지정학 프리미엄 지속","summary":"트럼프-시진핑 정상회담에서 이란 문제 해결책이 나오지 않으면서 WTI 원유가 $102.80을 유지했다. Dan Niles(Niles Investment) 등 월가 애널리스트들은 유가 50% 이상 급등이 지속될 경우 경기침체 선행 신호가 될 수 있다고 경고했다.","source":"CNBC Power Lunch / Reuters","time":"2026-05-16","importance":"high","impact":"혼재 — 에너지주 이익에는 긍정, 인플레·경기침체 우려에는 부정"},{"rank":3,"headline":"구리 -4.2%, 금 -2.7%, 은 -8% 급락 — 위험회피에 금속 전반 하락","summary":"기술주 매도와 달러 강세가 맞물리며 구리, 금, 은 등 금속 가격이 급락했다. 10년물 금리 급등과 달러 강세가 금속 자산의 매력도를 낮추며 광산주 전반에도 매도세가 출회됐다.","source":"Charles Schwab Market Update","time":"2026-05-16","importance":"mid","impact":"부정 — 광산주·소재 섹터 추가 하락 압박"},{"rank":4,"headline":"소매 에너지 소비 격차 — 저소득층 연료비 감소, 고소득층 행동 변화 없음","summary":"뉴욕 연준 연구에 따르면 에너지 가격 급등 시 연소득 $40,000 이하 가구는 가스 소비를 줄이는 반면 고소득층은 소비 패턴 변화가 없는 것으로 나타났다. 이는 에너지 인플레의 역진적 충격을 보여준다.","source":"Federal Reserve Bank of New York","time":"2026-05-16","importance":"mid","impact":"중립 — 소비 계층별 에너지 수요 분화 심화"},{"rank":5,"headline":"30년물 국채금리 5.11% — 에너지 인프라 투자 비용 상승 우려","summary":"30년물 국채금리가 5.11%까지 급등하며 에너지 인프라 프로젝트의 자본조달 비용 부담이 커지고 있다. 장기 파이프라인·재생에너지 프로젝트의 수익성 계산에 영향을 미칠 수 있다.","source":"CNBC","time":"2026-05-16","importance":"low","impact":"주의 — 장기 에너지 인프라 투자 비용 부담 증가"}],"stocks":[{"ticker":"XOM","name":"엑손모빌","price":"130.70","change":"+1.8%","mktcap":"0.52T","pe":"14.0","signal":"매수"},{"ticker":"CVX","name":"셰브런","price":"175.45","change":"+1.8%","mktcap":"0.32T","pe":"12.3","signal":"매수"},{"ticker":"COP","name":"코노코필립스","price":"120.74","change":"+1.8%","mktcap":"0.15T","pe":"11.6","signal":"매수"},{"ticker":"SLB","name":"슐럼버거","price":"48.64","change":"+1.8%","mktcap":"0.07T","pe":"16.5","signal":"중립"},{"ticker":"MPC","name":"마라톤 페트롤리엄","price":"171.55","change":"+1.8%","mktcap":"0.05T","pe":"10.0","signal":"매수"},{"ticker":"PSX","name":"필립스 66","price":"150.88","change":"+1.8%","mktcap":"0.05T","pe":"9.4","signal":"중립"},{"ticker":"VLO","name":"발레로 에너지","price":"182.11","change":"+1.8%","mktcap":"0.06T","pe":"7.9","signal":"매수"},{"ticker":"OXY","name":"옥시덴탈 페트롤리엄","price":"72.89","change":"+1.8%","mktcap":"0.06T","pe":"11.8","signal":"매수"},{"ticker":"HAL","name":"할리버턴","price":"38.58","change":"+1.8%","mktcap":"0.03T","pe":"14.1","signal":"중립"},{"ticker":"DVN","name":"데본 에너지","price":"36.44","change":"+1.8%","mktcap":"0.02T","pe":"8.7","signal":"중립"}],"weekly_watch":[{"title":"에너지 유일 상승 — 방어적 섹터 로테이션 수혜 본격화","body":"기술주 매도세 속 에너지 섹터로의 자금 유입이 가속화되고 있다. WTI $103 유지 구간에서 XOM·CVX·COP의 잉여현금흐름은 역대 최고 수준이며, XLE ETF $99 레벨 안착 시 추가 상승 여력이 있다.","tag":"bull"},{"title":"이란 협상 재개 리스크 — 유가 급락 시 에너지주 동반 하락","body":"트럼프-시진핑 회담에서 이란 해법은 나오지 않았지만, 추후 미국-이란 직접 협상이 재개될 경우 WTI $85 이하로의 급락 가능성이 있다. 이 시나리오에서 DVN·HAL 등 소형 에너지주의 낙폭이 클 수 있다.","tag":"bear"},{"title":"유가 $105 돌파 시 경기침체 선행 신호 — 에너지주 단기 고점 가능성","body":"Dan Niles 등 월가 전문가들은 유가 50% 이상 급등이 2분기 이상 지속될 경우 경기침체 선행 신호라고 경고한다. WTI $105 돌파 여부가 에너지주의 단기 고점 신호가 될 수 있어 이 레벨에서 포지션 재점검이 필요하다.","tag":"watch"}]},"finance":{"sector_perf":{"pct":"-0.80","direction":"down","etf":"XLF","etf_val":"51.68","etf_chg":"-0.8%"},"top_news":[{"rank":1,"headline":"10년물 4.55% · 30년물 5.11% — 연중 최고치로 은행 채권 평가손실 확대","summary":"10년물 국채금리가 4.55%, 30년물이 5.11%로 각각 연중 최고치를 기록하며 은행권의 보유채권(AFS/HTM) 평가손실 문제가 재부각됐다. 특히 지역은행 중심으로 예금 이탈 우려가 커지고 있다.","source":"CNBC / Bloomberg","time":"2026-05-16","importance":"high","impact":"부정 — 은행 보유채권 평가손실 확대, 2023년 SVB 사태 연상"},{"rank":2,"headline":"Kevin Warsh 연준 신임 의장 취임 — 첫 통화정책 발언 5/21 주목","summary":"파월 의장의 임기 만료와 함께 Kevin Warsh가 연준 의장직을 인수했다. 매파 성향의 Warsh 신임 의장이 첫 공식 발언(5/21 예정)에서 금리 인상 가능성을 시사할 경우 금융주에 추가 하방 압력이 가해질 전망이다.","source":"Charles Schwab / Reuters","time":"2026-05-16","importance":"high","impact":"부정 — 매파적 연준 기조 강화 시 금융주 추가 조정 가능성"},{"rank":3,"headline":"연준 금리 인상 가능성 45% — 한달 전 1%에서 급격히 상승","summary":"CME FedWatch 기준 연내 금리 인상 가능성이 45%까지 치솟으며 불과 한 달 전 1%에서 급격히 상승했다. 이란 전쟁으로 인한 에너지 인플레이션이 연준의 통화정책 경로를 근본적으로 바꾸고 있다.","source":"CME FedWatch / Charles Schwab","time":"2026-05-16","importance":"high","impact":"혼재 — 단기 NIM에는 긍정적이나 경기침체 우려와 대출 수요 감소는 부정적"},{"rank":4,"headline":"소매판매 부진 — SPDR 소매 ETF 이번 주 -6%, 4주 연속 하락","summary":"소비자 지출 둔화 우려가 커지며 소매판매 관련 ETF가 이번 주만 -6% 하락, 4주 연속 약세를 기록했다. 신용카드 연체율 상승과 맞물려 소비자금융 부문의 건전성 우려가 확대되고 있다.","source":"CNBC","time":"2026-05-16","importance":"mid","impact":"부정 — 소비자금융 및 카드사 신용 비용 상승 우려"},{"rank":5,"headline":"Russell 2000 -2%+ — 지역은행 비중 높아 금리 급등 직격탄","summary":"소형주 지수 Russell 2000이 이번 주 -2% 이상 하락하며 7주 연속 상승 행진을 마감했다. 지역은행 비중이 높은 Russell 2000은 금리 급등에 특히 민감하게 반응했다.","source":"CNBC","time":"2026-05-16","importance":"mid","impact":"부정 — 지역은행 자금 이탈 리스크 재부각"}],"stocks":[{"ticker":"JPM","name":"JP모건 체이스","price":"297.88","change":"-0.8%","mktcap":"0.85T","pe":"13.5","signal":"매수"},{"ticker":"BAC","name":"뱅크오브아메리카","price":"49.21","change":"-1.2%","mktcap":"0.38T","pe":"12.9","signal":"중립"},{"ticker":"GS","name":"골드만삭스","price":"676.96","change":"-0.8%","mktcap":"0.22T","pe":"14.7","signal":"매수"},{"ticker":"MS","name":"모건스탠리","price":"133.53","change":"-0.8%","mktcap":"0.23T","pe":"15.5","signal":"중립"},{"ticker":"WFC","name":"웰스파고","price":"84.72","change":"-0.8%","mktcap":"0.28T","pe":"12.2","signal":"중립"},{"ticker":"BLK","name":"블랙록","price":"1040.34","change":"-0.8%","mktcap":"0.16T","pe":"22.2","signal":"매수"},{"ticker":"C","name":"씨티그룹","price":"123.40","change":"-0.8%","mktcap":"0.24T","pe":"11.1","signal":"중립"},{"ticker":"AXP","name":"아메리칸 익스프레스","price":"310.99","change":"-0.8%","mktcap":"0.23T","pe":"18.4","signal":"중립"},{"ticker":"V","name":"비자","price":"355.34","change":"-0.8%","mktcap":"0.72T","pe":"31.8","signal":"매수"},{"ticker":"MA","name":"마스터카드","price":"530.57","change":"-0.8%","mktcap":"0.50T","pe":"34.5","signal":"매수"}],"weekly_watch":[{"title":"금리 상승 = NIM 단기 호재 — 대형 은행 수혜 가능성","body":"10년물 4.55% 급등은 단기적으로 은행의 순이자마진(NIM) 확대에 유리하다. JPM·GS·MS 등 대형 은행은 금리 상승 환경에서 이자수익 증가 효과를 누릴 수 있으며, $295(JPM) 레벨이 단기 지지선으로 작동할 전망이다.","tag":"bull"},{"title":"30년물 5.11% — 채권 평가손실 및 모기지 시장 위축 직격탄","body":"30년물 국채금리 5.11%는 은행 보유채권 평가손실을 다시 확대시키고 모기지 수요를 급격히 냉각시킨다. 2023년 SVB 사태의 트리거였던 채권 평가손실 문제가 지역은행 중심으로 재부각될 위험이 있다.","tag":"bear"},{"title":"Warsh 연준 의장 첫 발언 5/21 — 매파 신호 강도가 금융주 방향성 결정","body":"Kevin Warsh 신임 연준 의장의 첫 공식 발언(5/21 예정)에서 금리 인상 시사 여부가 이번 주 최대 관전 포인트다. '금리 인상 고려 중' 발언 시 은행주 추가 -2~3% 하락 가능성, '동결 유지' 발언 시 반등 트리거가 될 수 있다.","tag":"watch"}]},"crypto":{"sector_perf":{"pct":"-1.50","direction":"down","etf":"IBIT","etf_val":"66.78","etf_chg":"-1.5%"},"top_news":[{"rank":1,"headline":"비트코인 $100K 하회 우려 — 금리 급등·달러 강세에 위험자산 전반 매도","summary":"10년물 금리 4.55%, 연준 금리 인상 가능성 45% 급등으로 비트코인을 포함한 위험자산 전반에서 매도세가 출회됐다. 연준 긴축 복귀 시나리오가 현실화될 경우 $90K 이하 재조정 가능성이 언급되고 있다.","source":"CoinDesk / Bloomberg","time":"2026-05-16","importance":"high","impact":"부정 — 매크로 역풍이 BTC 단기 하방 압력 강화"},{"rank":2,"headline":"Digital Asset Market Clarity Act 상원 위원회 통과 — 규제 명확화 호재","summary":"미국 상원 금융위원회가 디지털 자산 시장 명확화 법안(Digital Asset Market Clarity Act)을 15-9 초당파 찬성으로 통과시켰다. CFTC가 디지털 상품, SEC가 디지털 증권을 관할하는 구조로 규제 불확실성이 대폭 감소할 전망이다.","source":"CoinDesk / Senate Banking Committee","time":"2026-05-14","importance":"high","impact":"긍정 — 규제 명확화로 기관 투자자 참여 확대 기반 마련"},{"rank":3,"headline":"Thorchain $1,080만 해킹 — RUNE 토큰 -12% 급락","summary":"크로스체인 유동성 프로토콜 Thorchain이 $1,080만 규모의 해킹 공격을 받아 모든 거래와 서명을 중단했다. BTC·ETH·BSC·Base 체인에 걸쳐 자금이 탈취됐으며 RUNE 토큰은 -12% 급락했다.","source":"CoinDesk","time":"2026-05-16","importance":"mid","impact":"부정 — DeFi 보안 리스크 재부각, 크로스체인 자산 투자 심리 위축"},{"rank":4,"headline":"Dartmouth 대학, BTC·ETH ETF에 $1,450만 투자 — 아이비리그 기관 채택 가속","summary":"다트머스 대학 기금이 비트코인 및 이더리움 현물 ETF에 $1,450만을 투자했다고 공시했다. 아이비리그 대학의 암호화폐 ETF 채택은 연금·기부금 등 보수적 기관 투자자들의 진입을 촉진하는 신호탄으로 평가된다.","source":"CoinDesk","time":"2026-05-14","importance":"mid","impact":"긍정 — 기관 투자자 저변 확대, 장기 수요 기반 강화"},{"rank":5,"headline":"미국 전략적 비트코인 준비금 세부 계획 '수주 내 발표' — 백악관 고문 예고","summary":"백악관 고문 Patrick Witt가 Bitcoin 2026 행사에서 미국의 전략적 비트코인 준비금에 대한 '중요 발표'가 수주 내 있을 것이라고 예고했다. 현재는 압수된 BTC만 보유 중이나, 추가 매입 방법론이 공개될 경우 시장에 강한 긍정적 신호가 될 수 있다.","source":"CoinDesk / Bitcoin 2026","time":"2026-05-16","importance":"mid","impact":"긍정 — 미국 정부의 BTC 전략적 자산 인정 공식화 기대"}],"stocks":[{"ticker":"COIN","name":"코인베이스","price":"204.27","change":"-2.0%","mktcap":"0.05T","pe":"23.9","signal":"매수"},{"ticker":"MSTR","name":"마이크로스트래티지","price":"179.95","change":"-1.5%","mktcap":"0.04T","pe":"N/A","signal":"매수"},{"ticker":"MARA","name":"마라 홀딩스","price":"13.13","change":"-2.4%","mktcap":"0.003T","pe":"N/A","signal":"중립"},{"ticker":"RIOT","name":"라이엇 플랫폼스","price":"20.29","change":"-2.4%","mktcap":"0.003T","pe":"N/A","signal":"중립"},{"ticker":"CLSK","name":"클린스파크","price":"13.86","change":"-2.4%","mktcap":"0.002T","pe":"N/A","signal":"중립"},{"ticker":"HUT","name":"허트 8","price":"27.43","change":"-2.4%","mktcap":"0.003T","pe":"N/A","signal":"중립"},{"ticker":"IBIT","name":"iShares Bitcoin Trust","price":"66.78","change":"-1.5%","mktcap":"ETF","pe":"N/A","signal":"매수"},{"ticker":"BITB","name":"Bitwise Bitcoin ETF","price":"40.68","change":"-1.5%","mktcap":"ETF","pe":"N/A","signal":"매수"},{"ticker":"FBTC","name":"Fidelity Wise Origin BTC","price":"65.50","change":"-1.5%","mktcap":"ETF","pe":"N/A","signal":"매수"},{"ticker":"GBTC","name":"Grayscale Bitcoin Trust","price":"97.22","change":"-1.5%","mktcap":"ETF","pe":"N/A","signal":"중립"}],"weekly_watch":[{"title":"Clarity Act 상원 위원회 통과 — 규제 명확화가 기관 수요 장기 확대 기반","body":"디지털 자산 시장 명확화 법안의 상원 위원회 통과는 BTC·ETH의 규제 지위를 명확히 하는 역사적 진전이다. 기관 투자자들이 규제 불확실성 리스크 없이 암호화폐 자산을 편입할 수 있게 되며, 다트머스 대학의 ETF 투자가 이런 흐름의 선행 사례다.","tag":"bull"},{"title":"연준 금리 인상 45% 가능성 — 위험자산 유동성 이탈 최대 시나리오","body":"연준이 실제로 금리를 인상할 경우 BTC를 포함한 위험자산 전반에서 유동성이 급격히 이탈할 수 있다. MARA·RIOT 등 레버리지 기반 채굴주는 BTC 하락분의 2~3배 낙폭이 예상된다. $95K 이하 이탈 시 추가 조정 가능성을 열어두어야 한다.","tag":"bear"},{"title":"미국 전략적 BTC 준비금 발표 시점 — 수주 내 발표가 단기 최대 호재","body":"백악관의 전략적 비트코인 준비금 세부 계획 발표가 수주 내 예정돼 있다. 미국 정부의 공식 BTC 매입 계획이 공개될 경우 $110K 이상 돌파 가능성도 있다. 반면 발표가 실망스러울 경우 '소문에 사고 뉴스에 팔자' 패턴이 나타날 수 있어 주시가 필요하다.","tag":"watch"}]}};
+window.SECTOR_PRELOAD = {"tech":{"sector_perf":{"pct":"-1.50","direction":"down","etf":"XLK","etf_val":"471.20","etf_chg":"-1.5%"},"top_news":[{"rank":1,"headline":"트럼프-시진핑 회담 실망 — 이란 해법 없이 기술주 차익실현 매도 폭발","summary":"정상회담이 이란 문제 해결 없이 종료되며 기술주에서 대규모 차익실현 매도가 나왔다.","source":"CNBC / Vital Knowledge","time":"2026-05-16","importance":"high","impact":"기술주 단기 과매수 해소 구간 진입"},{"rank":2,"headline":"NVDA 5/20 실적 앞두고 포지션 조정 — 컨센서스 매출 $788억 유지","summary":"엔비디아가 -2% 하락하며 실적 발표를 앞두고 포지션 조정 매물이 출회됐다.","source":"WSJ / Bloomberg","time":"2026-05-16","importance":"high","impact":"실적 기대감 유효, 발표 전 변동성 확대"},{"rank":3,"headline":"나스닥 -1.3% — 10년물 금리 4.55% 연중 최고치 직격","summary":"10년물 금리 급등이 고PER 기술주 DCF 밸류에이션을 직접 압박했다.","source":"Charles Schwab","time":"2026-05-16","importance":"high","impact":"금리 상승이 기술주 밸류에이션 압박"},{"rank":4,"headline":"Cerebras(CBRS) IPO 이틀째 -4% 반락","summary":"전날 +68% 급등 후 차익실현 매물 출회로 반락했다.","source":"CNBC","time":"2026-05-16","importance":"mid","impact":"AI 투자 열기 지속, 단기 변동성 확대"},{"rank":5,"headline":"CSCO +0.5% 안정 — AI 수주 $90억 상향 모멘텀 유지","summary":"전날 +13% 갭업 후 시장 약세 속 방어적 흐름을 보였다.","source":"Bloomberg","time":"2026-05-16","importance":"low","impact":"AI 인프라 수요 사이클 지속 확인"}],"stocks":[{"ticker":"NVDA","name":"엔비디아","price":"223.24","change":"-2.0%","mktcap":"5.20T","pe":"50.8","signal":"매수"},{"ticker":"AAPL","name":"애플","price":"295.28","change":"-1.7%","mktcap":"4.43T","pe":"31.9","signal":"매수"},{"ticker":"MSFT","name":"마이크로소프트","price":"503.53","change":"-1.5%","mktcap":"3.74T","pe":"35.6","signal":"매수"},{"ticker":"META","name":"메타","price":"671.12","change":"-1.7%","mktcap":"1.70T","pe":"26.8","signal":"매수"},{"ticker":"GOOGL","name":"알파벳","price":"182.41","change":"-1.7%","mktcap":"2.22T","pe":"22.1","signal":"매수"},{"ticker":"AMZN","name":"아마존","price":"222.18","change":"-1.2%","mktcap":"2.35T","pe":"44.1","signal":"매수"},{"ticker":"AMD","name":"AMD","price":"149.67","change":"-3.0%","mktcap":"0.24T","pe":"37.5","signal":"중립"},{"ticker":"TSLA","name":"테슬라","price":"438.76","change":"-1.4%","mktcap":"1.41T","pe":"70.6","signal":"중립"},{"ticker":"INTC","name":"인텔","price":"22.80","change":"-5.0%","mktcap":"0.10T","pe":"N/A","signal":"매도"},{"ticker":"CSCO","name":"시스코","price":"74.20","change":"+0.5%","mktcap":"0.30T","pe":"18.2","signal":"매수"}],"weekly_watch":[{"title":"NVDA 5/20 실적 — 시장 전체 방향성 결정","body":"데이터센터 가이던스 상회 시 이번 주 하락분 단숨에 회복 가능. $215 레벨이 단기 핵심 지지선.","tag":"bull"},{"title":"금리 4.55% + 연준 인상 가능성 45%","body":"나스닥 고PER 종목 DCF 직접 압박. Warsh 의장 첫 발언(5/21)이 추가 하락 트리거.","tag":"bear"},{"title":"NVDA $225, AMD $175 레벨 — 반도체 방향성 확정","body":"이번 주 실적 결과에 따라 반도체 섹터 단기 방향성이 결정된다.","tag":"watch"}]},"energy":{"sector_perf":{"pct":"+1.60","direction":"up","etf":"XLE","etf_val":"99.37","etf_chg":"+1.6%"},"top_news":[{"rank":1,"headline":"에너지 섹터 +1.6% 유일 상승 — 전 섹터 하락 속 방어적 역할","summary":"이란 전쟁 리스크 프리미엄이 WTI $102~$103 유지시키며 에너지 기업 이익 전망 뒷받침.","source":"CNBC / Reuters","time":"2026-05-16","importance":"high","impact":"지정학 리스크 구간 에너지주 방어적 매력 부각"},{"rank":2,"headline":"WTI $102.80 — 이란 협상 공백으로 지정학 프리미엄 지속","summary":"트럼프-시진핑 회담에서 이란 해결책 없이 종료되며 유가 프리미엄 유지.","source":"Reuters","time":"2026-05-16","importance":"high","impact":"에너지주 이익 긍정, 인플레 우려 부정"},{"rank":3,"headline":"구리 -4.2%, 금 -2.7% — 달러 강세에 금속 전반 하락","summary":"10년물 금리 급등과 달러 강세가 금속 자산 매력도를 낮추며 광산주 매도세 출회.","source":"Charles Schwab","time":"2026-05-16","importance":"mid","impact":"광산주·소재 섹터 추가 하락 압박"},{"rank":4,"headline":"OXY, 버크셔 지속 보유 — 구조적 하방 지지","summary":"버핏의 버크셔 해서웨이가 OXY 지분 유지로 하방 지지 역할 중.","source":"Bloomberg","time":"2026-05-16","importance":"mid","impact":"OXY 하방 구조적 보호막"},{"rank":5,"headline":"30년물 5.11% — 에너지 인프라 투자 비용 상승","summary":"30년물 금리 급등으로 장기 파이프라인 프로젝트 수익성 압박.","source":"CNBC","time":"2026-05-16","importance":"low","impact":"장기 인프라 투자 비용 부담 증가"}],"stocks":[{"ticker":"XOM","name":"엑손모빌","price":"130.70","change":"+1.8%","mktcap":"0.52T","pe":"14.0","signal":"매수"},{"ticker":"CVX","name":"셰브런","price":"175.45","change":"+1.8%","mktcap":"0.32T","pe":"12.3","signal":"매수"},{"ticker":"COP","name":"코노코필립스","price":"120.74","change":"+1.8%","mktcap":"0.15T","pe":"11.6","signal":"매수"},{"ticker":"SLB","name":"슐럼버거","price":"48.64","change":"+1.8%","mktcap":"0.07T","pe":"16.5","signal":"중립"},{"ticker":"MPC","name":"마라톤 페트롤리엄","price":"171.55","change":"+1.8%","mktcap":"0.05T","pe":"10.0","signal":"매수"},{"ticker":"PSX","name":"필립스 66","price":"150.88","change":"+1.8%","mktcap":"0.05T","pe":"9.4","signal":"중립"},{"ticker":"VLO","name":"발레로 에너지","price":"182.11","change":"+1.8%","mktcap":"0.06T","pe":"7.9","signal":"매수"},{"ticker":"OXY","name":"옥시덴탈","price":"72.89","change":"+1.8%","mktcap":"0.06T","pe":"11.8","signal":"매수"},{"ticker":"HAL","name":"할리버턴","price":"38.58","change":"+1.8%","mktcap":"0.03T","pe":"14.1","signal":"중립"},{"ticker":"DVN","name":"데본 에너지","price":"36.44","change":"+1.8%","mktcap":"0.02T","pe":"8.7","signal":"중립"}],"weekly_watch":[{"title":"WTI $100 지지 — 에너지주 하방 구조적 지지","body":"WTI $102 유지에서 XOM·CVX·COP 잉여현금흐름 역대 최고. XLE $95 레벨이 핵심 지지선.","tag":"bull"},{"title":"이란 협상 재개 리스크 — 유가 급락 시 동반 하락","body":"협상 타결 시 WTI $85 이하 급락 가능성. DVN·HAL 소형주 포지션 관리 필요.","tag":"bear"},{"title":"유가 $105 돌파 — 경기침체 선행 신호 가능성","body":"$105 돌파 여부가 에너지주 단기 고점 신호. 이 레벨에서 포지션 재점검 권장.","tag":"watch"}]},"finance":{"sector_perf":{"pct":"-0.80","direction":"down","etf":"XLF","etf_val":"51.68","etf_chg":"-0.8%"},"top_news":[{"rank":1,"headline":"10년물 4.55% · 30년물 5.11% — 은행 채권 평가손실 확대","summary":"국채금리 연중 최고치로 은행권 보유채권 평가손실이 재부각됐다.","source":"CNBC / Bloomberg","time":"2026-05-16","importance":"high","impact":"은행 보유채권 평가손실 확대"},{"rank":2,"headline":"Kevin Warsh 연준 신임 의장 취임 — 첫 발언 5/21 주목","summary":"매파 성향 Warsh 의장의 첫 공식 발언에서 금리 인상 가능성 시사 여부 주목.","source":"Charles Schwab","time":"2026-05-16","importance":"high","impact":"매파 기조 강화 시 금융주 추가 조정"},{"rank":3,"headline":"연준 금리 인상 가능성 45% — 한달 전 1%에서 급격히 상승","summary":"CPI·PPI 동반 강세로 연준의 통화정책 경로가 근본적으로 변화하고 있다.","source":"CME FedWatch","time":"2026-05-16","importance":"high","impact":"NIM 단기 긍정, 대출 수요 감소 부정"},{"rank":4,"headline":"소매 ETF 이번 주 -6% — 신용카드 연체율 상승 우려","summary":"소비자 지출 둔화로 소비자금융 건전성 우려가 확대되고 있다.","source":"CNBC","time":"2026-05-16","importance":"mid","impact":"카드사 신용 비용 상승 우려"},{"rank":5,"headline":"Russell 2000 -2%+ — 지역은행 금리 급등 직격탄","summary":"지역은행 비중 높은 Russell 2000이 이번 주 7주 연속 상승 마감.","source":"CNBC","time":"2026-05-16","importance":"mid","impact":"지역은행 자금 이탈 리스크 재부각"}],"stocks":[{"ticker":"JPM","name":"JP모건","price":"297.88","change":"-0.8%","mktcap":"0.85T","pe":"13.5","signal":"매수"},{"ticker":"BAC","name":"뱅크오브아메리카","price":"49.21","change":"-1.2%","mktcap":"0.38T","pe":"12.9","signal":"중립"},{"ticker":"GS","name":"골드만삭스","price":"676.96","change":"-0.8%","mktcap":"0.22T","pe":"14.7","signal":"매수"},{"ticker":"MS","name":"모건스탠리","price":"133.53","change":"-0.8%","mktcap":"0.23T","pe":"15.5","signal":"중립"},{"ticker":"WFC","name":"웰스파고","price":"84.72","change":"-0.8%","mktcap":"0.28T","pe":"12.2","signal":"중립"},{"ticker":"BLK","name":"블랙록","price":"1040.34","change":"-0.8%","mktcap":"0.16T","pe":"22.2","signal":"매수"},{"ticker":"C","name":"씨티그룹","price":"123.40","change":"-0.8%","mktcap":"0.24T","pe":"11.1","signal":"중립"},{"ticker":"AXP","name":"아메리칸 익스프레스","price":"310.99","change":"-0.8%","mktcap":"0.23T","pe":"18.4","signal":"중립"},{"ticker":"V","name":"비자","price":"355.34","change":"-0.8%","mktcap":"0.73T","pe":"31.8","signal":"매수"},{"ticker":"MA","name":"마스터카드","price":"530.57","change":"-0.8%","mktcap":"0.50T","pe":"34.5","signal":"매수"}],"weekly_watch":[{"title":"JPM $300 지지 — 배당·자사주 매입 하방 지지","body":"ROE 18%·배당수익률 3.5%. $295~$300 분할 매수 고려.","tag":"bull"},{"title":"30년물 5.11% — 채권 평가손실·모기지 위축","body":"SVB 사태 트리거였던 채권 평가손실 문제 재부각. 지역은행 예금 이탈 리스크.","tag":"bear"},{"title":"Warsh 첫 발언 5/21 — 금리 인상 신호 강도가 방향성 결정","body":"'금리 인상 고려' 발언 시 은행주 -2~3% 추가 하락 가능성.","tag":"watch"}]},"crypto":{"sector_perf":{"pct":"-1.50","direction":"down","etf":"IBIT","etf_val":"66.78","etf_chg":"-1.5%"},"top_news":[{"rank":1,"headline":"비트코인 $100K 하회 우려 — 금리 급등·달러 강세에 위험자산 매도","summary":"연준 금리 인상 가능성 45% 급등으로 BTC 포함 위험자산 전반에서 매도세 출회.","source":"CoinDesk / Bloomberg","time":"2026-05-16","importance":"high","impact":"매크로 역풍으로 BTC 단기 하방 압력 강화"},{"rank":2,"headline":"Digital Asset Market Clarity Act 상원 위원회 통과","summary":"15-9 초당파 찬성으로 통과. CFTC·SEC 역할 분리로 규제 불확실성 대폭 감소.","source":"CoinDesk","time":"2026-05-14","importance":"high","impact":"기관 투자자 참여 확대 기반 마련"},{"rank":3,"headline":"Thorchain $1,080만 해킹 — RUNE -12% 급락","summary":"크로스체인 프로토콜 해킹으로 DeFi 보안 리스크 재부각.","source":"CoinDesk","time":"2026-05-16","importance":"mid","impact":"DeFi 보안 리스크 재부각"},{"rank":4,"headline":"Dartmouth 대학 BTC·ETH ETF $1,450만 투자","summary":"아이비리그 기금의 암호화폐 ETF 채택이 기관 투자자 저변 확대 신호.","source":"CoinDesk","time":"2026-05-14","importance":"mid","impact":"기관 수요 기반 확대"},{"rank":5,"headline":"미국 전략적 BTC 준비금 '수주 내 발표'","summary":"백악관 고문 Patrick Witt가 중요 발표를 수주 내로 예고했다.","source":"CoinDesk","time":"2026-05-16","importance":"mid","impact":"BTC 전략적 자산 인정 공식화 기대"}],"stocks":[{"ticker":"COIN","name":"코인베이스","price":"204.27","change":"-2.0%","mktcap":"0.05T","pe":"23.9","signal":"매수"},{"ticker":"MSTR","name":"마이크로스트래티지","price":"179.95","change":"-1.5%","mktcap":"0.04T","pe":"N/A","signal":"매수"},{"ticker":"MARA","name":"마라 홀딩스","price":"13.13","change":"-2.4%","mktcap":"0.003T","pe":"N/A","signal":"중립"},{"ticker":"RIOT","name":"라이엇 플랫폼스","price":"20.29","change":"-2.4%","mktcap":"0.003T","pe":"N/A","signal":"중립"},{"ticker":"CLSK","name":"클린스파크","price":"13.86","change":"-2.4%","mktcap":"0.002T","pe":"N/A","signal":"중립"},{"ticker":"HUT","name":"허트 8","price":"27.43","change":"-2.4%","mktcap":"0.003T","pe":"N/A","signal":"중립"},{"ticker":"IBIT","name":"iShares BTC Trust","price":"66.78","change":"-1.5%","mktcap":"ETF","pe":"N/A","signal":"매수"},{"ticker":"BITB","name":"Bitwise BTC ETF","price":"40.68","change":"-1.5%","mktcap":"ETF","pe":"N/A","signal":"매수"},{"ticker":"FBTC","name":"Fidelity BTC","price":"65.50","change":"-1.5%","mktcap":"ETF","pe":"N/A","signal":"매수"},{"ticker":"GBTC","name":"Grayscale BTC","price":"97.22","change":"-1.5%","mktcap":"ETF","pe":"N/A","signal":"중립"}],"weekly_watch":[{"title":"BTC $100K 구조적 지지 확인","body":"IBIT·FBTC 기관 매수세가 하방 구조를 변화시켰다. $100K 레벨이 새로운 지지선.","tag":"bull"},{"title":"연준 긴축 복귀 우려 — BTC 최대 역풍","body":"금리 인상 재개 시 MARA·RIOT 레버리지 채굴주 BTC보다 2~3배 낙폭 가능.","tag":"bear"},{"title":"미국 BTC 준비금 발표 — 최대 호재 가능성","body":"발표 내용에 따라 $110K 돌파 또는 '소문에 사고 뉴스에 팔자' 패턴 주시.","tag":"watch"}]}};
 
 /* ── PRELOADED DATA (2026-05-16) ── */
-window.MARKET_DATA = {
-  "generated_at": "2026-05-16T21:00:00Z",
-  "date": "2026-05-16",
-  "indices": {
-    "sp500":  { "value": 7418.34,  "change": -82.90,  "change_pct": -1.10 },
-    "nasdaq": { "value": 26289.43, "change": -345.79, "change_pct": -1.30 },
-    "dow":    { "value": 49563.46, "change": -500.00, "change_pct": -1.00 },
-    "vix":    { "value": 19.20,    "change":  1.94 },
-    "tnx":    { "name": "10Y 국채", "value": 4.55,  "change":  0.09 },
-    "dxy":    { "name": "DXY 달러", "value": 99.80,  "change":  0.30 },
-    "wti":    { "name": "WTI 원유", "value": 102.80, "change":  1.40 }
-  },
-  "market_mood": {
-    "score": 38,
-    "label": "공포 (Fear)",
-    "vix_signal": "VIX 19.2 — 20 임박, 경계 구간 진입",
-    "summary": "트럼프-시진핑 정상회담 종료 후 이란 문제 해결 없이 실망 매물이 쏟아지며 기술주가 급락했다. 10년물 국채금리가 4.55%로 연중 최고치를 기록하며 성장주 전반에 압박을 가했고, 연준 금리 인상 가능성도 45%까지 상승했다. 에너지 섹터만 유일하게 상승하며 방어적 성격을 보였다."
-  },
-  "top_news": [
-    {
-      "rank": 1,
-      "headline": "트럼프-시진핑 정상회담 종료 — 이란 해법 없이 실망 매물 쏟아져",
-      "summary": "트럼프 대통령의 베이징 방문이 마무리됐으나 이란 전쟁 해결에 대한 구체적 성과 없이 종료되며 기술주 중심 차익실현 매도가 급격히 출회됐다. S&P 500 -1.1%, 나스닥 -1.3%로 주간 기준 신고점 대비 급격히 되돌림이 나타났다.",
-      "source": "CNBC / Bloomberg",
-      "time": "2026-05-16 장 마감",
-      "importance": "high",
-      "impact": "부정 — 지정학 불확실성 재부각, 기술주 추가 조정 가능성"
-    },
-    {
-      "rank": 2,
-      "headline": "10년물 국채금리 4.55% — 연중 최고치, 연준 금리 인상 가능성 45%로 급등",
-      "summary": "10년물 국채금리가 9bp 급등해 4.55%로 연중 최고치를 기록하며 성장주 밸류에이션 재조정 우려가 커지고 있다. CME FedWatch 기준 연내 금리 인상 가능성이 45%까지 치솟았으며, 새로 취임한 Kevin Warsh 연준 의장의 첫 행보에 시장의 관심이 집중됐다.",
-      "source": "Charles Schwab / CME FedWatch",
-      "time": "2026-05-16",
-      "importance": "high",
-      "impact": "부정 — 고PER 기술주 추가 조정 압박, 금융주 NIM 단기 호재"
-    },
-    {
-      "rank": 3,
-      "headline": "Cerebras(CBRS) IPO 이틀째 -4% 반락 — 전날 +68% 급등 후 차익실현",
-      "summary": "AI 칩 메이커 Cerebras가 나스닥 상장 이튿날 -4% 하락하며 전날 +68% 급등분을 일부 되돌렸다. 회사의 시가총액은 여전히 $950억 수준으로, SpaceX·OpenAI·Anthropic의 IPO 기대감을 이어가는 대형 기술 상장의 포문을 열었다는 평가다.",
-      "source": "CNBC / TheStreet",
-      "time": "2026-05-16",
-      "importance": "high",
-      "impact": "중립 — AI 섹터 투자 열기 지속되나 단기 변동성 확대"
-    },
-    {
-      "rank": 4,
-      "headline": "Intel -5%, AMD -3%, Micron -4% — 반도체 전반 위험회피 매도",
-      "summary": "엔비디아가 -2% 하락하며 반도체 전반이 위험회피 매도세에 노출됐다. 인텔은 -5%로 가장 큰 낙폭을 기록했고 AMD와 마이크론도 각각 -3%, -4% 내렸다. 분석가들은 최근 수 주간의 랠리가 지나치게 가파른 속도로 진행됐다고 경고했다.",
-      "source": "Vital Knowledge / CNBC",
-      "time": "2026-05-16",
-      "importance": "mid",
-      "impact": "부정 — 반도체 단기 과매수 해소 구간, NVDA 5/20 실적 앞둔 포지션 조정"
-    },
-    {
-      "rank": 5,
-      "headline": "에너지 섹터만 +1.6% 유일 상승 — WTI $102 유지, 이란 리스크 프리미엄 지속",
-      "summary": "전 섹터가 하락하는 가운데 에너지만 +1.6% 상승하며 방어적 섹터로서 역할을 했다. WTI 원유가 $102~$103를 유지하며 이란 전쟁 리스크 프리미엄이 여전히 작동하고 있음을 보여줬다. 소매 ETF는 이번 주만 -6% 하락하며 소비 둔화 우려를 반영했다.",
-      "source": "CNBC / Reuters",
-      "time": "2026-05-16",
-      "importance": "mid",
-      "impact": "혼재 — 에너지주 긍정, 소비재·기술주 부정"
-    }
-  ],
-  "sectors": [
-    { "name": "에너지",     "en": "Energy",                 "change_pct":  1.60 },
-    { "name": "필수소비재", "en": "Consumer Staples",       "change_pct": -0.20 },
-    { "name": "헬스케어",   "en": "Healthcare",             "change_pct": -0.50 },
-    { "name": "금융",       "en": "Financials",             "change_pct": -0.80 },
-    { "name": "유틸리티",   "en": "Utilities",              "change_pct": -0.90 },
-    { "name": "소재",       "en": "Materials",              "change_pct": -1.10 },
-    { "name": "산업재",     "en": "Industrials",            "change_pct": -1.20 },
-    { "name": "부동산",     "en": "Real Estate",            "change_pct": -1.30 },
-    { "name": "기술",       "en": "Technology",             "change_pct": -1.50 },
-    { "name": "통신서비스", "en": "Communication Services", "change_pct": -1.60 },
-    { "name": "임의소비재", "en": "Consumer Discretionary", "change_pct": -1.80 }
-  ],
-  "economic_indicators": [
-    { "name": "미국 10년물 국채금리", "value": 4.55,   "change":  0.09, "unit": "%" },
-    { "name": "미국 2년물 국채금리",  "value": 3.95,   "change":  0.05, "unit": "%" },
-    { "name": "DXY 달러인덱스",       "value": 99.80,  "change":  0.30, "unit": "" },
-    { "name": "WTI 원유",             "value": 102.80, "change":  1.40, "unit": "$/배럴" },
-    { "name": "금 현물",              "value": 4574.00,"change": -127.0,"unit": "$/oz" },
-    { "name": "연준 기준금리",        "value": 4.25,   "change":  0.00, "unit": "%" }
-  ],
-  "buzz_stocks": [
-    { "rank": 1, "ticker": "CBRS", "name": "Cerebras Systems", "heat": 5, "change_pct": -4.0,  "reason": "IPO 이틀째 차익실현 — 전날 +68% 급등 후 반락", "direction": "down" },
-    { "rank": 2, "ticker": "NVDA", "name": "엔비디아",         "heat": 5, "change_pct": -2.0,  "reason": "5/20 실적 앞두고 포지션 조정, 고점 대비 -2%", "direction": "down" },
-    { "rank": 3, "ticker": "INTC", "name": "인텔",             "heat": 4, "change_pct": -5.0,  "reason": "반도체 섹터 위험회피 매도 — 주간 낙폭 최대", "direction": "down" },
-    { "rank": 4, "ticker": "XOM",  "name": "엑손모빌",        "heat": 4, "change_pct":  1.80, "reason": "에너지 유일 상승 섹터 — WTI $103 유지 수혜", "direction": "up" },
-    { "rank": 5, "ticker": "CSCO", "name": "시스코",           "heat": 3, "change_pct":  0.50, "reason": "전일 +13% 갭업 후 안정 — AI 수주 $90억 상향 모멘텀", "direction": "up" }
-  ],
-  "schedule": [
-    { "date_kst": "2026-05-20", "time_kst": "05:30", "title": "엔비디아(NVDA) FY27 Q1 실적 발표 ★이번 주 최대 이벤트", "description": "컨센서스 매출 $788억, EPS $1.77. Blackwell GPU 수요와 데이터센터 가이던스가 AI 섹터 전체 방향성 결정.", "type": "earnings", "importance": "critical" },
-    { "date_kst": "2026-05-20", "time_kst": "21:30", "title": "미국 4월 주택착공·건축허가", "description": "금리 4.55% 급등으로 위축 여부 주목. 부동산 섹터 방향성 가늠자.", "type": "econ", "importance": "mid" },
-    { "date_kst": "2026-05-21", "time_kst": "03:00", "title": "Kevin Warsh 연준 신임 의장 첫 공식 발언", "description": "파월 퇴임 후 취임한 Warsh 의장의 첫 통화정책 시그널. 금리 인상 가능성 언급 여부가 최대 관건.", "type": "fed", "importance": "high" },
-    { "date_kst": "2026-05-21", "time_kst": "21:30", "title": "미국 4월 기존주택판매", "description": "소비 심리 및 부동산 수요 확인 지표.", "type": "econ", "importance": "low" },
-    { "date_kst": "2026-05-22", "time_kst": "21:30", "title": "미국 5월 PMI 예비치 (제조업·서비스업)", "description": "경기 둔화 여부 확인. 에너지 인플레 충격이 기업 활동에 미친 영향 가늠.", "type": "econ", "importance": "mid" }
-  ],
-  "market_outlook": {
-    "summary": "이번 주 S&P 500 신고점 경신 후 금요일 급락으로 마무리되며 기술주 중심 랠리의 취약성이 드러났다. 10년물 금리 4.55%, 연준 금리 인상 가능성 45%라는 매크로 환경은 단기적으로 고PER 기술주에 불리하다. 다음 주 NVDA 실적이 시장 전체의 방향성을 결정할 핵심 이벤트이며, Kevin Warsh 신임 연준 의장의 첫 발언도 주목해야 한다.",
-    "key_risks": [
-      "10년물 금리 4.6% 돌파 시 나스닥 추가 5~8% 조정 가능성",
-      "NVDA 실적 가이던스 미달 시 AI 섹터 전반 급락 트리거",
-      "WTI $105+ 돌파 시 인플레 재가속으로 연준 금리 인상 현실화 우려"
-    ],
-    "strategy": [
-      "NVDA 5/20 실적 전 포지션 축소, 결과 확인 후 재진입 전략 검토",
-      "에너지 섹터(XLE) — 이란 리스크 프리미엄 유지 구간, 단기 방어적 비중 확대 고려",
-      "국채금리 4.5% 이상 구간에서 리츠·유틸리티 비중 축소, 단기채·현금 비중 유지"
-    ],
-    "overall_sentiment": "bearish"
-  }
-};
+window.MARKET_DATA = {"date":"2026-05-16","updated_at":"07:00 KST","indices":{"sp500":{"value":7418.34,"change":-82.90,"change_pct":-1.10},"nasdaq":{"value":26289.43,"change":-345.79,"change_pct":-1.30},"dow":{"value":49563.46,"change":-500.00,"change_pct":-1.00},"vix":{"value":19.20,"change":1.94}},"aiInsight":{"marketStory":"트럼프-시진핑 회담 종료 후 이란 해법 공백에 실망 매물이 쏟아지며 기술주 중심 급락. 10년물 금리 4.55% 연중 최고치와 연준 금리 인상 가능성 45% 급등이 시장 전체를 압박했으나, 에너지 섹터는 유일하게 +1.6% 상승하며 지정학 리스크 프리미엄을 반영했다.","marketBias":"risk-off","confidenceScore":82,"drivers":[{"label":"금리 4.55% 연중 최고","direction":"neg","icon":"📈"},{"label":"VIX 19.2 경계 구간","direction":"neg","icon":"⚠"},{"label":"이란 협상 공백 지속","direction":"neg","icon":"🌏"},{"label":"연준 인상 가능성 45%","direction":"neg","icon":"🏦"},{"label":"에너지 방어적 강세","direction":"pos","icon":"⚡"},{"label":"NVDA 5/20 실적 기대","direction":"warn","icon":"◎"}],"actionableInsights":{"equityBias":"bearish","sectorRotation":"기술 → 에너지 / 필수소비재 방어적 로테이션 진행 중","riskLevel":"high","watchList":["NVDA 5/20","Warsh 발언 5/21","WTI $105","TNX 4.6%"],"strategy":["NVDA 5/20 실적 전 포지션 축소, 결과 확인 후 재진입 검토","에너지(XLE) 단기 방어적 비중 확대 고려","금리 4.5% 이상 구간 — 리츠·유틸리티 비중 축소"]},"scenarios":{"bullish":{"desc":"NVDA 실적이 컨센서스($788억)를 상회하고 데이터센터 가이던스가 강하게 나올 경우, AI 섹터 중심 반등으로 이번 주 하락분 상당 부분 회복 가능. Warsh 연준 의장이 금리 동결 기조 유지 시사 시 추가 탄력.","condition":"NVDA 매출 $800억+ · Warsh 금리 동결 발언 · WTI $100 이하 안정"},"bearish":{"desc":"NVDA 실적 미달 또는 가이던스 하향 시 AI 섹터 전반 급락 트리거. Warsh 의장이 금리 인상 가능성을 명시적으로 언급할 경우 나스닥 추가 5~8% 조정 가능. WTI $105 돌파 시 인플레 재가속 우려.","condition":"NVDA 미달 · Warsh 매파 발언 · TNX 4.6% 돌파 · WTI $105+"},"keyTriggers":["10년물 금리 4.6% 돌파 — 나스닥 추가 5~8% 조정 트리거","NVDA FY27 Q1 가이던스 미달 — AI 섹터 급락 트리거","WTI $105+ 돌파 — 연준 금리 인상 현실화 우려"],"watchNext":["NVDA 실적 (5/20)","Warsh 첫 발언 (5/21)","5월 PMI (5/22)","TNX 4.6% 레벨","WTI $105 레벨","BTC $100K 지지"]}},"market_mood":{"score":38,"label":"공포 (Fear)","vix_signal":"VIX 19.2 — 20 임박, 경계 구간 진입","summary":"트럼프-시진핑 정상회담 종료 후 이란 해법 공백에 기술주 급락과 금리 급등이 맞물리며 투자 심리가 빠르게 위축됐다. 에너지 섹터로의 방어적 자금 이동이 관찰되고 있다."},"top_news":[{"rank":1,"headline":"트럼프-시진핑 정상회담 종료 — 이란 해법 없이 실망 매물 쏟아져","summary":"정상회담이 마무리됐으나 이란 전쟁 해결 성과 없이 종료되며 기술주 중심 차익실현 매도가 급격히 출회됐다. S&P 500 -1.1%, 나스닥 -1.3% 급락.","source":"CNBC / Bloomberg","time":"2026-05-16","importance":"high","category":"GEOPOLITICAL","impact":"지정학 불확실성 재부각, 기술주 추가 조정 가능성"},{"rank":2,"headline":"10년물 국채금리 4.55% 연중 최고치 — 연준 금리 인상 가능성 45%로 급등","summary":"10년물 금리가 9bp 급등해 4.55%로 연중 최고치를 기록했다.","source":"Charles Schwab / CME FedWatch","time":"2026-05-16","importance":"high","category":"MACRO","impact":"고PER 기술주 추가 조정 압박"},{"rank":3,"headline":"Cerebras(CBRS) IPO 이틀째 -4% 반락 — 전날 +68% 급등 후 차익실현","summary":"AI 칩 메이커 Cerebras가 나스닥 상장 이틀째 -4% 하락하며 차익실현 매물 출회.","source":"CNBC / TheStreet","time":"2026-05-16","importance":"high","category":"EARNINGS","impact":"AI 섹터 단기 변동성 확대"},{"rank":4,"headline":"Intel -5%, AMD -3%, Micron -4% — 반도체 전반 위험회피 매도","summary":"엔비디아가 -2% 하락하며 반도체 전반이 위험회피 매도세에 노출됐다.","source":"Vital Knowledge","time":"2026-05-16","importance":"mid","category":"SECTOR","impact":"NVDA 5/20 실적이 반등 여부 결정"},{"rank":5,"headline":"에너지 섹터만 +1.6% 유일 상승 — WTI $103 이란 리스크 프리미엄 지속","summary":"전 섹터 하락 속 에너지만 +1.6% 상승하며 방어적 역할을 했다.","source":"CNBC / Reuters","time":"2026-05-16","importance":"mid","category":"SECTOR","impact":"방어적 섹터 로테이션 신호"}],"sectors":[{"name":"에너지","en":"Energy","change_pct":1.60},{"name":"필수소비재","en":"Consumer Staples","change_pct":-0.20},{"name":"헬스케어","en":"Healthcare","change_pct":-0.50},{"name":"금융","en":"Financials","change_pct":-0.80},{"name":"소재","en":"Materials","change_pct":-1.10},{"name":"산업재","en":"Industrials","change_pct":-1.20},{"name":"부동산","en":"Real Estate","change_pct":-1.30},{"name":"기술","en":"Technology","change_pct":-1.50},{"name":"통신서비스","en":"Communication Services","change_pct":-1.60},{"name":"임의소비재","en":"Consumer Discretionary","change_pct":-1.80}],"economic_indicators":[{"name":"10Y 국채금리","value":4.55,"change":0.09,"unit":"%"},{"name":"2Y 국채금리","value":3.95,"change":0.05,"unit":"%"},{"name":"DXY 달러인덱스","value":99.80,"change":0.30,"unit":""},{"name":"WTI 원유","value":102.80,"change":1.40,"unit":"$/bbl"},{"name":"금 현물","value":4574,"change":-127,"unit":"$/oz"},{"name":"연준 기준금리","value":4.25,"change":0.00,"unit":"%"}],"buzz_stocks":[{"rank":1,"ticker":"CBRS","name":"Cerebras Systems","heat":5,"change_pct":-4.0,"reason":"IPO 이틀째 — 전날 +68% 후 차익실현"},{"rank":2,"ticker":"NVDA","name":"엔비디아","heat":5,"change_pct":-2.0,"reason":"5/20 실적 앞두고 포지션 조정"},{"rank":3,"ticker":"INTC","name":"인텔","heat":4,"change_pct":-5.0,"reason":"반도체 위험회피 매도 최대 낙폭"},{"rank":4,"ticker":"XOM","name":"엑손모빌","heat":4,"change_pct":1.8,"reason":"에너지 유일 상승 섹터 수혜"},{"rank":5,"ticker":"CSCO","name":"시스코","heat":3,"change_pct":0.5,"reason":"갭업 후 AI 수주 모멘텀 유지"}],"schedule":[{"date_kst":"2026-05-20","time_kst":"05:30","title":"NVDA FY27 Q1 실적 ★","description":"컨센서스 매출 $788억, EPS $1.77. Blackwell GPU 수요가 AI 섹터 방향성 결정.","type":"earnings","importance":"critical"},{"date_kst":"2026-05-20","time_kst":"21:30","title":"미국 4월 주택착공·건축허가","description":"금리 4.55% 급등으로 위축 여부 주목.","type":"econ","importance":"mid"},{"date_kst":"2026-05-21","time_kst":"03:00","title":"Warsh 연준 의장 첫 공식 발언","description":"매파 시그널 여부가 금융주 방향성 결정.","type":"fed","importance":"high"},{"date_kst":"2026-05-22","time_kst":"21:30","title":"5월 PMI 예비치 (제조업·서비스)","description":"경기 둔화 여부 확인.","type":"econ","importance":"mid"},{"date_kst":"2026-05-22","time_kst":"21:30","title":"미국 4월 기존주택판매","description":"소비 심리 및 부동산 수요 확인.","type":"econ","importance":"low"}]};
 </script>
 </body>
 </html>
