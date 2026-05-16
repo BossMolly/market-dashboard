@@ -2,56 +2,109 @@ name: 미국 시장 일일 리포트 자동 생성
 
 on:
   schedule:
-    # 매일 오전 7시 KST = UTC 22:00 (전날)
-    # 월~금 (미국 장 마감 후)
+    # 평일 매일 오전 7시 KST = UTC 전날 22:00
     - cron: '0 22 * * 0-4'
-  workflow_dispatch:  # 수동 실행 버튼 (언제든 즉시 실행 가능)
+  workflow_dispatch:   # 수동 실행 버튼 (언제든 즉시 실행)
 
 jobs:
   generate-report:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
 
     steps:
+      # ── 1. 저장소 체크아웃 ──────────────────────────────
       - name: 저장소 체크아웃
         uses: actions/checkout@v4
 
+      # ── 2. Node.js 설치 ─────────────────────────────────
       - name: Node.js 설치
         uses: actions/setup-node@v4
         with:
           node-version: '20'
 
+      # ── 3. Python 설치 ──────────────────────────────────
+      - name: Python 설치
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      # ── 4. Claude Code 설치 ─────────────────────────────
       - name: Claude Code 설치
         run: npm install -g @anthropic-ai/claude-code
 
-      - name: 시장 데이터 수집
+      # ── 5. 전체 개요 데이터 수집 ────────────────────────
+      - name: 전체 개요 데이터 수집
         env:
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          ANTHROPIC_API_KEY: ${{ secrets.CAPI }}
         run: |
           TODAY=$(TZ='Asia/Seoul' date +"%Y-%m-%d")
-          NOW=$(TZ='Asia/Seoul' date +"%H:%M")
-          echo "📅 수집 날짜: $TODAY $NOW KST"
+          NOW=$(TZ='Asia/Seoul' date +"%H:%M KST")
+          echo "TODAY=$TODAY" >> $GITHUB_ENV
+          echo "NOW=$NOW" >> $GITHUB_ENV
+          echo "📅 수집 날짜: $TODAY $NOW"
 
           claude --no-interactive -p "
-          오늘($TODAY $NOW KST) 미국 주식 시장 최신 데이터를 웹에서 검색하여
-          아래 JSON 형식으로만 응답하세요. 반드시 { 로 시작하고 } 로 끝내세요.
-          Markdown, 코드블록, 설명 텍스트 없이 순수 JSON만 출력하세요.
+          오늘($TODAY $NOW) 미국 주식 시장 최신 데이터를 웹에서 검색하여
+          아래 JSON 형식으로만 응답하세요.
+          반드시 { 로 시작하고 } 로 끝내세요.
+          Markdown, 코드블록, 설명 없이 순수 JSON만 출력하세요.
 
           {
             \"date\": \"$TODAY\",
-            \"updated_at\": \"$NOW KST\",
+            \"updated_at\": \"$NOW\",
             \"indices\": {
               \"sp500\":  {\"value\": 0, \"change\": 0, \"change_pct\": 0},
               \"nasdaq\": {\"value\": 0, \"change\": 0, \"change_pct\": 0},
               \"dow\":    {\"value\": 0, \"change\": 0, \"change_pct\": 0},
               \"vix\":    {\"value\": 0, \"change\": 0}
             },
-            \"market_mood\": {\"score\": 50, \"label\": \"\", \"vix_signal\": \"\", \"summary\": \"\"},
+            \"aiInsight\": {
+              \"marketStory\": \"오늘 시장을 한 문장으로 — 수치보다 왜 움직였는지 중심으로\",
+              \"marketBias\": \"risk-off 또는 risk-on 또는 neutral\",
+              \"confidenceScore\": 75,
+              \"drivers\": [
+                {\"label\": \"핵심 드라이버 설명\", \"direction\": \"neg 또는 pos 또는 warn\", \"icon\": \"이모지\"},
+                {\"label\": \"\", \"direction\": \"neg\", \"icon\": \"\"},
+                {\"label\": \"\", \"direction\": \"pos\", \"icon\": \"\"},
+                {\"label\": \"\", \"direction\": \"warn\", \"icon\": \"\"},
+                {\"label\": \"\", \"direction\": \"neg\", \"icon\": \"\"}
+              ],
+              \"actionableInsights\": {
+                \"equityBias\": \"bullish 또는 bearish 또는 neutral\",
+                \"sectorRotation\": \"섹터 로테이션 방향 설명\",
+                \"riskLevel\": \"high 또는 medium 또는 low\",
+                \"watchList\": [\"NVDA\", \"티커 또는 이벤트\"],
+                \"strategy\": [
+                  \"구체적 액션 아이템 1\",
+                  \"구체적 액션 아이템 2\",
+                  \"구체적 액션 아이템 3\"
+                ]
+              },
+              \"scenarios\": {
+                \"bullish\": {
+                  \"desc\": \"강세 시나리오 — 2~3문장\",
+                  \"condition\": \"조건: 구체적 수치나 이벤트\"
+                },
+                \"bearish\": {
+                  \"desc\": \"약세 시나리오 — 2~3문장\",
+                  \"condition\": \"조건: 구체적 수치나 이벤트\"
+                },
+                \"keyTriggers\": [\"핵심 트리거 1\", \"핵심 트리거 2\", \"핵심 트리거 3\"],
+                \"watchNext\": [\"다음 주목 이벤트 1\", \"다음 주목 이벤트 2\", \"다음 주목 이벤트 3\"]
+              }
+            },
+            \"market_mood\": {
+              \"score\": 50,
+              \"label\": \"공포·탐욕 레이블\",
+              \"vix_signal\": \"VIX 신호 한 줄\",
+              \"summary\": \"시장 심리 2~3문장\"
+            },
             \"top_news\": [
-              {\"rank\":1,\"headline\":\"\",\"summary\":\"\",\"source\":\"\",\"time\":\"\",\"importance\":\"high\",\"impact\":\"\"},
-              {\"rank\":2,\"headline\":\"\",\"summary\":\"\",\"source\":\"\",\"time\":\"\",\"importance\":\"high\",\"impact\":\"\"},
-              {\"rank\":3,\"headline\":\"\",\"summary\":\"\",\"source\":\"\",\"time\":\"\",\"importance\":\"mid\",\"impact\":\"\"},
-              {\"rank\":4,\"headline\":\"\",\"summary\":\"\",\"source\":\"\",\"time\":\"\",\"importance\":\"mid\",\"impact\":\"\"},
-              {\"rank\":5,\"headline\":\"\",\"summary\":\"\",\"source\":\"\",\"time\":\"\",\"importance\":\"low\",\"impact\":\"\"}
+              {\"rank\":1,\"headline\":\"\",\"summary\":\"2~3문장\",\"source\":\"\",\"time\":\"\",\"importance\":\"high\",\"category\":\"MACRO 또는 EARNINGS 또는 SECTOR 또는 POLICY 또는 GEOPOLITICAL\",\"impact\":\"시장 영향 한 줄\"},
+              {\"rank\":2,\"headline\":\"\",\"summary\":\"\",\"source\":\"\",\"time\":\"\",\"importance\":\"high\",\"category\":\"\",\"impact\":\"\"},
+              {\"rank\":3,\"headline\":\"\",\"summary\":\"\",\"source\":\"\",\"time\":\"\",\"importance\":\"mid\",\"category\":\"\",\"impact\":\"\"},
+              {\"rank\":4,\"headline\":\"\",\"summary\":\"\",\"source\":\"\",\"time\":\"\",\"importance\":\"mid\",\"category\":\"\",\"impact\":\"\"},
+              {\"rank\":5,\"headline\":\"\",\"summary\":\"\",\"source\":\"\",\"time\":\"\",\"importance\":\"low\",\"category\":\"\",\"impact\":\"\"}
             ],
             \"sectors\": [
               {\"name\":\"기술\",\"en\":\"Technology\",\"change_pct\":0},
@@ -67,11 +120,11 @@ jobs:
               {\"name\":\"통신서비스\",\"en\":\"Communication Services\",\"change_pct\":0}
             ],
             \"economic_indicators\": [
-              {\"name\":\"미국 10년물 국채금리\",\"value\":0,\"change\":0,\"unit\":\"%\"},
-              {\"name\":\"미국 2년물 국채금리\",\"value\":0,\"change\":0,\"unit\":\"%\"},
+              {\"name\":\"10Y 국채금리\",\"value\":0,\"change\":0,\"unit\":\"%\"},
+              {\"name\":\"2Y 국채금리\",\"value\":0,\"change\":0,\"unit\":\"%\"},
               {\"name\":\"DXY 달러인덱스\",\"value\":0,\"change\":0,\"unit\":\"\"},
-              {\"name\":\"WTI 원유\",\"value\":0,\"change\":0,\"unit\":\"달러/배럴\"},
-              {\"name\":\"금 현물\",\"value\":0,\"change\":0,\"unit\":\"달러/oz\"},
+              {\"name\":\"WTI 원유\",\"value\":0,\"change\":0,\"unit\":\"$/bbl\"},
+              {\"name\":\"금 현물\",\"value\":0,\"change\":0,\"unit\":\"$/oz\"},
               {\"name\":\"연준 기준금리\",\"value\":0,\"change\":0,\"unit\":\"%\"}
             ],
             \"buzz_stocks\": [
@@ -87,77 +140,246 @@ jobs:
               {\"date_kst\":\"\",\"time_kst\":\"\",\"title\":\"\",\"description\":\"\",\"type\":\"earnings\",\"importance\":\"high\"},
               {\"date_kst\":\"\",\"time_kst\":\"\",\"title\":\"\",\"description\":\"\",\"type\":\"econ\",\"importance\":\"mid\"},
               {\"date_kst\":\"\",\"time_kst\":\"\",\"title\":\"\",\"description\":\"\",\"type\":\"econ\",\"importance\":\"mid\"}
-            ],
-            \"market_outlook\": {
-              \"summary\": \"\",
-              \"key_risks\": [\"\", \"\", \"\"],
-              \"strategy\": [\"\", \"\", \"\"],
-              \"overall_sentiment\": \"neutral\"
-            }
+            ]
           }
 
-          빈 값들을 실제 오늘 데이터로 채워주세요.
+          빈 값들을 실제 오늘 최신 데이터로 채워주세요.
           " --output-format text > market_data_raw.txt
 
-          echo "✅ 데이터 수집 완료"
+          echo "✅ 전체 개요 수집 완료 ($(wc -c < market_data_raw.txt) bytes)"
 
+      # ── 6. 섹터별 데이터 수집 ───────────────────────────
+      - name: 기술 섹터 수집
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.CAPI }}
+        run: |
+          claude --no-interactive -p "
+          오늘($TODAY $NOW) 미국 기술 섹터(Technology) 최신 데이터를 웹에서 검색하여
+          아래 JSON 형식으로만 응답하세요. 순수 JSON만 출력하세요.
+
+          {
+            \"sector_perf\": {\"pct\": \"\", \"direction\": \"up\", \"etf\": \"XLK\", \"etf_val\": \"\", \"etf_chg\": \"\"},
+            \"top_news\": [
+              {\"rank\":1,\"headline\":\"\",\"summary\":\"2~3문장\",\"source\":\"\",\"time\":\"\",\"importance\":\"high\",\"impact\":\"\"},
+              {\"rank\":2,\"headline\":\"\",\"summary\":\"\",\"source\":\"\",\"time\":\"\",\"importance\":\"high\",\"impact\":\"\"},
+              {\"rank\":3,\"headline\":\"\",\"summary\":\"\",\"source\":\"\",\"time\":\"\",\"importance\":\"mid\",\"impact\":\"\"},
+              {\"rank\":4,\"headline\":\"\",\"summary\":\"\",\"source\":\"\",\"time\":\"\",\"importance\":\"mid\",\"impact\":\"\"},
+              {\"rank\":5,\"headline\":\"\",\"summary\":\"\",\"source\":\"\",\"time\":\"\",\"importance\":\"low\",\"impact\":\"\"}
+            ],
+            \"stocks\": [
+              {\"ticker\":\"NVDA\",\"name\":\"엔비디아\",\"price\":\"\",\"change\":\"\",\"mktcap\":\"\",\"pe\":\"\",\"signal\":\"매수\"},
+              {\"ticker\":\"AAPL\",\"name\":\"애플\",\"price\":\"\",\"change\":\"\",\"mktcap\":\"\",\"pe\":\"\",\"signal\":\"중립\"},
+              {\"ticker\":\"MSFT\",\"name\":\"마이크로소프트\",\"price\":\"\",\"change\":\"\",\"mktcap\":\"\",\"pe\":\"\",\"signal\":\"매수\"},
+              {\"ticker\":\"META\",\"name\":\"메타\",\"price\":\"\",\"change\":\"\",\"mktcap\":\"\",\"pe\":\"\",\"signal\":\"중립\"},
+              {\"ticker\":\"GOOGL\",\"name\":\"알파벳\",\"price\":\"\",\"change\":\"\",\"mktcap\":\"\",\"pe\":\"\",\"signal\":\"매수\"},
+              {\"ticker\":\"AMZN\",\"name\":\"아마존\",\"price\":\"\",\"change\":\"\",\"mktcap\":\"\",\"pe\":\"\",\"signal\":\"매수\"},
+              {\"ticker\":\"AMD\",\"name\":\"AMD\",\"price\":\"\",\"change\":\"\",\"mktcap\":\"\",\"pe\":\"\",\"signal\":\"중립\"},
+              {\"ticker\":\"TSLA\",\"name\":\"테슬라\",\"price\":\"\",\"change\":\"\",\"mktcap\":\"\",\"pe\":\"\",\"signal\":\"중립\"},
+              {\"ticker\":\"ORCL\",\"name\":\"오라클\",\"price\":\"\",\"change\":\"\",\"mktcap\":\"\",\"pe\":\"\",\"signal\":\"중립\"},
+              {\"ticker\":\"ADBE\",\"name\":\"어도비\",\"price\":\"\",\"change\":\"\",\"mktcap\":\"\",\"pe\":\"\",\"signal\":\"중립\"}
+            ],
+            \"weekly_watch\": [
+              {\"title\":\"강세 포인트 제목\",\"body\":\"2~3문장 분석. 구체적 레벨 포함.\",\"tag\":\"bull\"},
+              {\"title\":\"약세 포인트 제목\",\"body\":\"2~3문장 분석.\",\"tag\":\"bear\"},
+              {\"title\":\"주시 포인트 제목\",\"body\":\"2~3문장 분석.\",\"tag\":\"watch\"}
+            ]
+          }
+
+          signal은 매수/중립/매도 중 하나. 빈 값을 실제 데이터로 채워주세요.
+          " --output-format text > sector_tech_raw.txt
+          echo "✅ 기술 섹터 수집 완료"
+
+      - name: 에너지 섹터 수집
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.CAPI }}
+        run: |
+          claude --no-interactive -p "
+          오늘($TODAY $NOW) 미국 에너지 섹터(Energy) 최신 데이터를 웹에서 검색하여
+          아래 JSON 형식으로만 응답하세요. 순수 JSON만 출력하세요.
+
+          {
+            \"sector_perf\": {\"pct\": \"\", \"direction\": \"up\", \"etf\": \"XLE\", \"etf_val\": \"\", \"etf_chg\": \"\"},
+            \"top_news\": [
+              {\"rank\":1,\"headline\":\"\",\"summary\":\"2~3문장\",\"source\":\"\",\"time\":\"\",\"importance\":\"high\",\"impact\":\"\"},
+              {\"rank\":2,\"headline\":\"\",\"summary\":\"\",\"source\":\"\",\"time\":\"\",\"importance\":\"high\",\"impact\":\"\"},
+              {\"rank\":3,\"headline\":\"\",\"summary\":\"\",\"source\":\"\",\"time\":\"\",\"importance\":\"mid\",\"impact\":\"\"},
+              {\"rank\":4,\"headline\":\"\",\"summary\":\"\",\"source\":\"\",\"time\":\"\",\"importance\":\"mid\",\"impact\":\"\"},
+              {\"rank\":5,\"headline\":\"\",\"summary\":\"\",\"source\":\"\",\"time\":\"\",\"importance\":\"low\",\"impact\":\"\"}
+            ],
+            \"stocks\": [
+              {\"ticker\":\"XOM\",\"name\":\"엑손모빌\",\"price\":\"\",\"change\":\"\",\"mktcap\":\"\",\"pe\":\"\",\"signal\":\"매수\"},
+              {\"ticker\":\"CVX\",\"name\":\"셰브런\",\"price\":\"\",\"change\":\"\",\"mktcap\":\"\",\"pe\":\"\",\"signal\":\"매수\"},
+              {\"ticker\":\"COP\",\"name\":\"코노코필립스\",\"price\":\"\",\"change\":\"\",\"mktcap\":\"\",\"pe\":\"\",\"signal\":\"매수\"},
+              {\"ticker\":\"SLB\",\"name\":\"슐럼버거\",\"price\":\"\",\"change\":\"\",\"mktcap\":\"\",\"pe\":\"\",\"signal\":\"중립\"},
+              {\"ticker\":\"MPC\",\"name\":\"마라톤 페트롤리엄\",\"price\":\"\",\"change\":\"\",\"mktcap\":\"\",\"pe\":\"\",\"signal\":\"매수\"},
+              {\"ticker\":\"PSX\",\"name\":\"필립스 66\",\"price\":\"\",\"change\":\"\",\"mktcap\":\"\",\"pe\":\"\",\"signal\":\"중립\"},
+              {\"ticker\":\"VLO\",\"name\":\"발레로 에너지\",\"price\":\"\",\"change\":\"\",\"mktcap\":\"\",\"pe\":\"\",\"signal\":\"매수\"},
+              {\"ticker\":\"OXY\",\"name\":\"옥시덴탈\",\"price\":\"\",\"change\":\"\",\"mktcap\":\"\",\"pe\":\"\",\"signal\":\"매수\"},
+              {\"ticker\":\"HAL\",\"name\":\"할리버턴\",\"price\":\"\",\"change\":\"\",\"mktcap\":\"\",\"pe\":\"\",\"signal\":\"중립\"},
+              {\"ticker\":\"DVN\",\"name\":\"데본 에너지\",\"price\":\"\",\"change\":\"\",\"mktcap\":\"\",\"pe\":\"\",\"signal\":\"중립\"}
+            ],
+            \"weekly_watch\": [
+              {\"title\":\"\",\"body\":\"\",\"tag\":\"bull\"},
+              {\"title\":\"\",\"body\":\"\",\"tag\":\"bear\"},
+              {\"title\":\"\",\"body\":\"\",\"tag\":\"watch\"}
+            ]
+          }
+
+          signal은 매수/중립/매도 중 하나. 빈 값을 실제 데이터로 채워주세요.
+          " --output-format text > sector_energy_raw.txt
+          echo "✅ 에너지 섹터 수집 완료"
+
+      - name: 금융 섹터 수집
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.CAPI }}
+        run: |
+          claude --no-interactive -p "
+          오늘($TODAY $NOW) 미국 금융 섹터(Financials) 최신 데이터를 웹에서 검색하여
+          아래 JSON 형식으로만 응답하세요. 순수 JSON만 출력하세요.
+
+          {
+            \"sector_perf\": {\"pct\": \"\", \"direction\": \"up\", \"etf\": \"XLF\", \"etf_val\": \"\", \"etf_chg\": \"\"},
+            \"top_news\": [
+              {\"rank\":1,\"headline\":\"\",\"summary\":\"2~3문장\",\"source\":\"\",\"time\":\"\",\"importance\":\"high\",\"impact\":\"\"},
+              {\"rank\":2,\"headline\":\"\",\"summary\":\"\",\"source\":\"\",\"time\":\"\",\"importance\":\"high\",\"impact\":\"\"},
+              {\"rank\":3,\"headline\":\"\",\"summary\":\"\",\"source\":\"\",\"time\":\"\",\"importance\":\"mid\",\"impact\":\"\"},
+              {\"rank\":4,\"headline\":\"\",\"summary\":\"\",\"source\":\"\",\"time\":\"\",\"importance\":\"mid\",\"impact\":\"\"},
+              {\"rank\":5,\"headline\":\"\",\"summary\":\"\",\"source\":\"\",\"time\":\"\",\"importance\":\"low\",\"impact\":\"\"}
+            ],
+            \"stocks\": [
+              {\"ticker\":\"JPM\",\"name\":\"JP모건\",\"price\":\"\",\"change\":\"\",\"mktcap\":\"\",\"pe\":\"\",\"signal\":\"매수\"},
+              {\"ticker\":\"BAC\",\"name\":\"뱅크오브아메리카\",\"price\":\"\",\"change\":\"\",\"mktcap\":\"\",\"pe\":\"\",\"signal\":\"중립\"},
+              {\"ticker\":\"GS\",\"name\":\"골드만삭스\",\"price\":\"\",\"change\":\"\",\"mktcap\":\"\",\"pe\":\"\",\"signal\":\"매수\"},
+              {\"ticker\":\"MS\",\"name\":\"모건스탠리\",\"price\":\"\",\"change\":\"\",\"mktcap\":\"\",\"pe\":\"\",\"signal\":\"중립\"},
+              {\"ticker\":\"WFC\",\"name\":\"웰스파고\",\"price\":\"\",\"change\":\"\",\"mktcap\":\"\",\"pe\":\"\",\"signal\":\"중립\"},
+              {\"ticker\":\"BLK\",\"name\":\"블랙록\",\"price\":\"\",\"change\":\"\",\"mktcap\":\"\",\"pe\":\"\",\"signal\":\"매수\"},
+              {\"ticker\":\"C\",\"name\":\"씨티그룹\",\"price\":\"\",\"change\":\"\",\"mktcap\":\"\",\"pe\":\"\",\"signal\":\"중립\"},
+              {\"ticker\":\"AXP\",\"name\":\"아메리칸 익스프레스\",\"price\":\"\",\"change\":\"\",\"mktcap\":\"\",\"pe\":\"\",\"signal\":\"중립\"},
+              {\"ticker\":\"V\",\"name\":\"비자\",\"price\":\"\",\"change\":\"\",\"mktcap\":\"\",\"pe\":\"\",\"signal\":\"매수\"},
+              {\"ticker\":\"MA\",\"name\":\"마스터카드\",\"price\":\"\",\"change\":\"\",\"mktcap\":\"\",\"pe\":\"\",\"signal\":\"매수\"}
+            ],
+            \"weekly_watch\": [
+              {\"title\":\"\",\"body\":\"\",\"tag\":\"bull\"},
+              {\"title\":\"\",\"body\":\"\",\"tag\":\"bear\"},
+              {\"title\":\"\",\"body\":\"\",\"tag\":\"watch\"}
+            ]
+          }
+
+          signal은 매수/중립/매도 중 하나. 빈 값을 실제 데이터로 채워주세요.
+          " --output-format text > sector_finance_raw.txt
+          echo "✅ 금융 섹터 수집 완료"
+
+      - name: 코인 섹터 수집
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.CAPI }}
+        run: |
+          claude --no-interactive -p "
+          오늘($TODAY $NOW) 미국 암호화폐/블록체인 관련 주식 및 BTC 시장 최신 데이터를 웹에서 검색하여
+          아래 JSON 형식으로만 응답하세요. 순수 JSON만 출력하세요.
+
+          {
+            \"sector_perf\": {\"pct\": \"\", \"direction\": \"up\", \"etf\": \"IBIT\", \"etf_val\": \"\", \"etf_chg\": \"\"},
+            \"top_news\": [
+              {\"rank\":1,\"headline\":\"\",\"summary\":\"2~3문장\",\"source\":\"\",\"time\":\"\",\"importance\":\"high\",\"impact\":\"\"},
+              {\"rank\":2,\"headline\":\"\",\"summary\":\"\",\"source\":\"\",\"time\":\"\",\"importance\":\"high\",\"impact\":\"\"},
+              {\"rank\":3,\"headline\":\"\",\"summary\":\"\",\"source\":\"\",\"time\":\"\",\"importance\":\"mid\",\"impact\":\"\"},
+              {\"rank\":4,\"headline\":\"\",\"summary\":\"\",\"source\":\"\",\"time\":\"\",\"importance\":\"mid\",\"impact\":\"\"},
+              {\"rank\":5,\"headline\":\"\",\"summary\":\"\",\"source\":\"\",\"time\":\"\",\"importance\":\"low\",\"impact\":\"\"}
+            ],
+            \"stocks\": [
+              {\"ticker\":\"COIN\",\"name\":\"코인베이스\",\"price\":\"\",\"change\":\"\",\"mktcap\":\"\",\"pe\":\"\",\"signal\":\"매수\"},
+              {\"ticker\":\"MSTR\",\"name\":\"마이크로스트래티지\",\"price\":\"\",\"change\":\"\",\"mktcap\":\"\",\"pe\":\"N/A\",\"signal\":\"매수\"},
+              {\"ticker\":\"MARA\",\"name\":\"마라 홀딩스\",\"price\":\"\",\"change\":\"\",\"mktcap\":\"\",\"pe\":\"N/A\",\"signal\":\"중립\"},
+              {\"ticker\":\"RIOT\",\"name\":\"라이엇 플랫폼스\",\"price\":\"\",\"change\":\"\",\"mktcap\":\"\",\"pe\":\"N/A\",\"signal\":\"중립\"},
+              {\"ticker\":\"CLSK\",\"name\":\"클린스파크\",\"price\":\"\",\"change\":\"\",\"mktcap\":\"\",\"pe\":\"N/A\",\"signal\":\"중립\"},
+              {\"ticker\":\"HUT\",\"name\":\"허트 8\",\"price\":\"\",\"change\":\"\",\"mktcap\":\"\",\"pe\":\"N/A\",\"signal\":\"중립\"},
+              {\"ticker\":\"IBIT\",\"name\":\"iShares BTC Trust\",\"price\":\"\",\"change\":\"\",\"mktcap\":\"ETF\",\"pe\":\"N/A\",\"signal\":\"매수\"},
+              {\"ticker\":\"BITB\",\"name\":\"Bitwise BTC ETF\",\"price\":\"\",\"change\":\"\",\"mktcap\":\"ETF\",\"pe\":\"N/A\",\"signal\":\"매수\"},
+              {\"ticker\":\"FBTC\",\"name\":\"Fidelity BTC\",\"price\":\"\",\"change\":\"\",\"mktcap\":\"ETF\",\"pe\":\"N/A\",\"signal\":\"매수\"},
+              {\"ticker\":\"GBTC\",\"name\":\"Grayscale BTC\",\"price\":\"\",\"change\":\"\",\"mktcap\":\"ETF\",\"pe\":\"N/A\",\"signal\":\"중립\"}
+            ],
+            \"weekly_watch\": [
+              {\"title\":\"\",\"body\":\"\",\"tag\":\"bull\"},
+              {\"title\":\"\",\"body\":\"\",\"tag\":\"bear\"},
+              {\"title\":\"\",\"body\":\"\",\"tag\":\"watch\"}
+            ]
+          }
+
+          signal은 매수/중립/매도 중 하나. 빈 값을 실제 데이터로 채워주세요.
+          " --output-format text > sector_crypto_raw.txt
+          echo "✅ 코인 섹터 수집 완료"
+
+      # ── 7. JSON 추출 및 HTML 주입 ────────────────────────
       - name: JSON 추출 및 HTML 주입
         run: |
           python3 << 'PYEOF'
-          import json, sys, re
+          import json, re, sys
+          from pathlib import Path
 
-          # JSON 추출
-          with open('market_data_raw.txt', 'r', encoding='utf-8') as f:
-              raw = f.read()
+          def extract_json(text):
+              text = re.sub(r'```json\s*', '', text).replace('```', '').strip()
+              s, e = text.find('{'), text.rfind('}')
+              if s == -1 or e == -1:
+                  return None
+              try:
+                  return json.loads(text[s:e+1])
+              except:
+                  return None
 
-          start = raw.find('{')
-          end   = raw.rfind('}')
-          if start == -1 or end == -1:
-              print("❌ JSON 블록을 찾을 수 없음")
+          # 전체 개요
+          overview = extract_json(Path('market_data_raw.txt').read_text(encoding='utf-8'))
+          if not overview:
+              print('❌ 전체 개요 JSON 파싱 실패')
               sys.exit(1)
+          print(f"✅ 전체 개요 파싱 완료: {overview.get('date','')}")
 
-          try:
-              data = json.loads(raw[start:end+1])
-          except json.JSONDecodeError as e:
-              print(f"❌ JSON 파싱 실패: {e}")
-              sys.exit(1)
-
-          print(f"✅ JSON 파싱 성공: {data.get('date','')}")
+          # 섹터별
+          sectors = {}
+          for key, fname in [('tech','sector_tech_raw.txt'),('energy','sector_energy_raw.txt'),('finance','sector_finance_raw.txt'),('crypto','sector_crypto_raw.txt')]:
+              data = extract_json(Path(fname).read_text(encoding='utf-8'))
+              if data:
+                  sectors[key] = data
+                  print(f"✅ {key} 섹터 파싱 완료")
+              else:
+                  print(f"⚠️  {key} 섹터 파싱 실패 — 스킵")
 
           # HTML 읽기
-          with open('us_market_dashboard.html', 'r', encoding='utf-8') as f:
-              html = f.read()
+          html = Path('us_market_dashboard.html').read_text(encoding='utf-8')
 
-          # 기존 MARKET_DATA 블록 교체
-          json_str = json.dumps(data, ensure_ascii=False, indent=2)
-          inject_script = f'<script>\n/* AUTO-GENERATED {data.get("date","")} */\nwindow.MARKET_DATA = {json_str};\n</script>'
+          # SECTOR_PRELOAD 교체
+          sector_json = json.dumps(sectors, ensure_ascii=False, separators=(',', ':'))
+          sector_block = f"/* ── SECTOR PRELOADED DATA ({overview.get('date','')}) ── */\nwindow.SECTOR_PRELOAD = {sector_json};"
+          html = re.sub(
+              r'/\* ── SECTOR PRELOADED DATA \([^)]+\) ── \*/\nwindow\.SECTOR_PRELOAD = \{.*?\};',
+              sector_block, html, flags=re.DOTALL
+          )
 
-          # window.MARKET_DATA 블록 교체 (기존 데이터 덮어쓰기)
-          pattern = r'<script>\s*/\*[^*]*\*/\s*window\.MARKET_DATA\s*=\s*\{.*?\};\s*</script>'
-          if re.search(pattern, html, re.DOTALL):
-              html = re.sub(pattern, inject_script, html, flags=re.DOTALL)
-              print("✅ MARKET_DATA 블록 교체 성공")
-          elif '<!-- __PRELOAD_INJECT_HERE__ -->' in html:
-              html = html.replace('<!-- __PRELOAD_INJECT_HERE__ -->', inject_script)
-              print("✅ 마커 주입 성공")
-          else:
-              html = html.replace('</body>', inject_script + '\n</body>')
-              print("✅ 폴백 주입 성공")
+          # MARKET_DATA 교체
+          overview_json = json.dumps(overview, ensure_ascii=False, indent=2)
+          market_block = f"/* ── PRELOADED DATA ({overview.get('date','')}) ── */\nwindow.MARKET_DATA = {overview_json};"
+          html = re.sub(
+              r'/\* ── PRELOADED DATA \([^)]+\) ── \*/\nwindow\.MARKET_DATA = \{.*?\};',
+              market_block, html, flags=re.DOTALL
+          )
 
-          # index.html로 저장
-          with open('index.html', 'w', encoding='utf-8') as f:
-              f.write(html)
-
-          print(f"✅ index.html 생성 완료")
+          # 저장
+          Path('us_market_dashboard.html').write_text(html, encoding='utf-8')
+          Path('index.html').write_text(html, encoding='utf-8')
+          print('✅ HTML 주입 완료 → index.html 생성')
           PYEOF
 
+      # ── 8. 임시 파일 정리 ───────────────────────────────
+      - name: 임시 파일 정리
+        run: rm -f market_data_raw.txt sector_*_raw.txt
+
+      # ── 9. GitHub Pages 배포 ────────────────────────────
       - name: GitHub Pages 배포
         run: |
-          git config user.name "github-actions[bot]"
+          git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add index.html
+          git add index.html us_market_dashboard.html
           git diff --cached --quiet || (
             git commit -m "📊 $(TZ='Asia/Seoul' date +'%Y-%m-%d') 시장 리포트 자동 업데이트"
             git push
-            echo "✅ GitHub Pages 배포 완료"
+            echo "✅ GitHub Pages 배포 완료!"
           )
