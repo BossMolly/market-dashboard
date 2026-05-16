@@ -43,7 +43,7 @@ jobs:
           echo "NOW=$NOW" >> $GITHUB_ENV
           echo "📅 수집 날짜: $TODAY $NOW"
 
-          claude --no-interactive -p "
+          claude --print -p "
           오늘($TODAY $NOW) 미국 주식 시장 최신 데이터를 웹에서 검색하여
           아래 JSON 형식으로만 응답하세요.
           반드시 { 로 시작하고 } 로 끝내세요.
@@ -153,7 +153,7 @@ jobs:
         env:
           ANTHROPIC_API_KEY: ${{ secrets.CAPI }}
         run: |
-          claude --no-interactive -p "
+          claude --print -p "
           오늘($TODAY $NOW) 미국 기술 섹터(Technology) 최신 데이터를 웹에서 검색하여
           아래 JSON 형식으로만 응답하세요. 순수 JSON만 출력하세요.
 
@@ -193,7 +193,7 @@ jobs:
         env:
           ANTHROPIC_API_KEY: ${{ secrets.CAPI }}
         run: |
-          claude --no-interactive -p "
+          claude --print -p "
           오늘($TODAY $NOW) 미국 에너지 섹터(Energy) 최신 데이터를 웹에서 검색하여
           아래 JSON 형식으로만 응답하세요. 순수 JSON만 출력하세요.
 
@@ -233,7 +233,7 @@ jobs:
         env:
           ANTHROPIC_API_KEY: ${{ secrets.CAPI }}
         run: |
-          claude --no-interactive -p "
+          claude --print -p "
           오늘($TODAY $NOW) 미국 금융 섹터(Financials) 최신 데이터를 웹에서 검색하여
           아래 JSON 형식으로만 응답하세요. 순수 JSON만 출력하세요.
 
@@ -273,7 +273,7 @@ jobs:
         env:
           ANTHROPIC_API_KEY: ${{ secrets.CAPI }}
         run: |
-          claude --no-interactive -p "
+          claude --print -p "
           오늘($TODAY $NOW) 미국 암호화폐/블록체인 관련 주식 및 BTC 시장 최신 데이터를 웹에서 검색하여
           아래 JSON 형식으로만 응답하세요. 순수 JSON만 출력하세요.
 
