@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+\#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
 US Market Dashboard 자동 업데이트 스크립트
@@ -179,10 +179,12 @@ signal은 매수/중립/매도 중 하나.
 """
 
 SECTORS = {
-    "tech":    ("기술",    "XLK", "NVDA,AAPL,MSFT,META,GOOGL,AMZN,AMD,TSLA,ORCL,ADBE"),
-    "energy":  ("에너지",  "XLE", "XOM,CVX,COP,SLB,MPC,PSX,VLO,OXY,HAL,DVN"),
-    "finance": ("금융",    "XLF", "JPM,BAC,GS,MS,WFC,BLK,C,AXP,V,MA"),
-    "crypto":  ("코인",    "IBIT","COIN,MSTR,MARA,RIOT,CLSK,HUT,IBIT,BITB,FBTC,GBTC"),
+    "tech":       ("기술",    "XLK",  "NVDA,AAPL,MSFT,META,GOOGL,AMZN,AMD,TSLA,ORCL,ADBE"),
+    "energy":     ("에너지",  "XLE",  "XOM,CVX,COP,SLB,MPC,PSX,VLO,OXY,HAL,DVN"),
+    "finance":    ("금융",    "XLF",  "JPM,BAC,GS,MS,WFC,BLK,C,AXP,V,MA"),
+    "consumer":   ("소비재",  "XLY",  "AMZN,TSLA,HD,MCD,NKE,SBUX,TGT,COST,WMT,PG"),
+    "realestate": ("부동산",  "XLRE", "PLD,AMT,EQIX,SPG,O,DLR,PSA,EQR,AVB,VNQ"),
+    "crypto":     ("코인",    "IBIT", "COIN,MSTR,MARA,RIOT,CLSK,HUT,IBIT,BITB,FBTC,GBTC"),
 }
 
 # ── HTML 주입 ────────────────────────────────────────────────────
